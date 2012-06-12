@@ -16,14 +16,13 @@ p {
 }
 a {
   color: #00B7FF;
+  text-decoration: none;
 }
 ul.toolbar {
 	width: 300px;
 	height: 75px;
 	margin: 100px auto;
-	background-color: #AAA;
 	border-radius: 5px;
-	box-shadow: 1px 1px 1px #666;
 	list-style: none;
 	color: black;
 	font-size: 1em;

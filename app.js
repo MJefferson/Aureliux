@@ -68,7 +68,7 @@ app.get('/alpha', function(req, res){
 						uid : uid,
 						phrase : response 
 					}
-				  	db.collection("instances").insert(instance);
+				  	//db.collection("instances").insert(instance);
 					resp.render('alpha', { title: 'Aureliux', phrase: response, inst: uid});
 				});
 			});
