@@ -28,11 +28,16 @@ ul.toolbar {
 	color: white;
 	font-size: 1em;
 	font-weight: bold;
+	padding-left: 20px;
 }
 ul.toolbar li {
 	float: left;
 	padding: 30px 10px;
+	cursor: pointer;
 }
 ul.toolbar li:first-child {
-	padding-left: 0px;
+	padding-left: 10px;
+}
+ul.toolbar li:hover {
+	background-color: #113;
 }

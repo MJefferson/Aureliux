@@ -1,11 +1,9 @@
-script
-  window.setTimeout(function(){
-    window.location.href = window.location.href;
-  }, 60000);
+script(src="/javascripts/jquery172.js")
+script(src="/javascripts/views.js")
 a(href='instance/' + inst)
   h1.phrase= phrase
 ul.toolbar
-  li SAVE
-  li NEXT
-  li SHARE
-  li TRANSLATE
+  li#save SAVE
+  li#share SHARE
+  li#translate TRANSLATE
+  li#next NEXT
