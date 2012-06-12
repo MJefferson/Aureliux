@@ -17,3 +17,22 @@ p {
 a {
   color: #00B7FF;
 }
+ul.toolbar {
+	width: 300px;
+	height: 75px;
+	margin: 50px auto;
+	background-color: #223;
+	border-radius: 5px;
+	box-shadow: 1px 1px 1px #666;
+	list-style: none;
+	color: white;
+	font-size: 1em;
+	font-weight: bold;
+}
+ul.toolbar li {
+	float: left;
+	padding: 30px 10px;
+}
+ul.toolbar li:first-child {
+	padding-left: 0px;
+}
