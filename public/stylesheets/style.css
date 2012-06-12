@@ -20,12 +20,12 @@ a {
 ul.toolbar {
 	width: 300px;
 	height: 75px;
-	margin: 50px auto;
+	margin: 100px auto;
 	background-color: #223;
 	border-radius: 5px;
 	box-shadow: 1px 1px 1px #666;
 	list-style: none;
-	color: white;
+	color: #CCC;
 	font-size: 1em;
 	font-weight: bold;
 	padding-left: 20px;
@@ -39,5 +39,5 @@ ul.toolbar li:first-child {
 	padding-left: 10px;
 }
 ul.toolbar li:hover {
-	background-color: #113;
+	color: white;
 }
