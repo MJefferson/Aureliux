@@ -19,6 +19,9 @@ app.configure(function(){
   app.use(express.static(__dirname + '/public'));
 });
 
+var Randomizer = require('./lib/randomizer');
+Randomizer.init();
+
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
@@ -31,36 +34,14 @@ app.configure('production', function(){
 
 app.get('/', routes.index);
 app.get('/alpha', function(req, res){
-	function countWords(type, callback){
-		db.collection("words").count({type: type}, function(a, count){
-			eval(type + "Count = count");
-			if(callback){
-				callback();
-			}
-		});
-	}
-	
-	function removeUnderscore(word){
-		return word.replace(/_/g, " ");
-	}
+
 	function setupServer(resp){
-		function removeUnderscore(word){
-			return word.replace(/_/g, " ");
-		}
-		function getRandomWord(type, callback){
-			randomKey = eval("Math.floor(Math.random()*"+type+"Count)");
-			db.collection("words").findOne({ type: type, num: randomKey }, function(err, res){
-				randed = removeUnderscore(res.word);
-				callback(randed);
-			});
-		}
-		
 		function respond(){
 			consoleFeedback = "Request made. Random phrase is: ";
 			
-			getRandomWord("adj", function(rw){
+			Randomizer.word({ type: "adj"}, function(rw){
 				response = rw + " ";
-				getRandomWord("noun", function(rw){
+				Randomizer.word({type: "noun"}, function(rw){
 					response += rw;
 					console.log(consoleFeedback + response.green);
 					uid = Math.floor(Math.random()*50000);
@@ -69,10 +50,11 @@ app.get('/alpha', function(req, res){
 						phrase : response 
 					}
 				  	//db.collection("instances").insert(instance);
-					resp.render('alpha', { title: 'Aureliux', phrase: response, inst: uid});
-				});
+					resp.render('alpha', { title: 'Aureliux', phrase: response, inst: uid});	
+				})
 			});
 		}
+		
 		if (req.url === '/favicon.ico') {
 			res.writeHead(200, {'Content-Type': 'image/x-icon'} );
 		    res.end();
@@ -82,7 +64,7 @@ app.get('/alpha', function(req, res){
 		}
 	}
 	
-	countWords("noun", function(){ countWords("adj", function(){ setupServer(res); })});
+	setupServer(res);
 });
 
 app.get('/instance/:id', function(req,res){
