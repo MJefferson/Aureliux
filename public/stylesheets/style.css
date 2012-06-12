@@ -21,11 +21,11 @@ ul.toolbar {
 	width: 300px;
 	height: 75px;
 	margin: 100px auto;
-	background-color: #223;
+	background-color: #AAA;
 	border-radius: 5px;
 	box-shadow: 1px 1px 1px #666;
 	list-style: none;
-	color: #CCC;
+	color: black;
 	font-size: 1em;
 	font-weight: bold;
 	padding-left: 20px;
