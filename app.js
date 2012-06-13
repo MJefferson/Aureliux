@@ -43,7 +43,8 @@ app.get('/alpha.json', function(req, res){
   		response = lens.response;
   		console.log(consoleFeedback + response.phrase.green);
   		res.json(response);
-  	}).aus();
+  	});
+  	lens.aus();
 });
 
 app.get('/alpha', function(req, res){
