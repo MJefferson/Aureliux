@@ -1,5 +1,17 @@
+@font-face {  
+  font-family: Naxos ;  
+  src: url( /fonts/NAXOSN.TTF ); format("truetype");  
+} 
+#header {
+	background-color: #76C000;
+	font-size: 1em;
+	color: white;
+	width: 20%;
+	padding: 20px;
+	letter-spacing: 2px;
+}
 body {
-  padding: 50px;
+  padding: 0px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: #333;
 }
@@ -29,6 +41,26 @@ ul.toolbar {
 	font-weight: bold;
 	padding-left: 20px;
 }
+ul.lenses {
+	font-family: Naxos;
+	font-size: 3em;
+	list-style: none;
+	float: left;
+	position: absolute;
+	top: 40px;
+	left: 0px;
+	text-shadow: 2px 1px 4px #444;
+	color: #222;
+}
+ul.lenses li:hover {
+	cursor: pointer;
+	color: #222A22;
+}
+.active {
+	color: #AFA;
+	text-shadow: 2px 1px 4px #111;
+}
+
 ul.toolbar li {
 	float: left;
 	padding: 30px 10px;
