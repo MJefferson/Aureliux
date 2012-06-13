@@ -19,7 +19,7 @@ h1 {
 	color: white;
 }
 h1.phrase {
-	margin: 80px auto;
+	margin: 40px auto 0px auto;
 	text-align: center;
 	font-size: 3em;
 }
@@ -31,33 +31,37 @@ a {
   text-decoration: none;
 }
 ul.toolbar {
-	width: 300px;
+	width: 275px;
 	height: 75px;
-	margin: 100px auto;
+	margin: 0px auto;
 	border-radius: 5px;
 	list-style: none;
-	color: black;
+	color: #544;
 	font-size: 1em;
-	font-weight: bold;
 	padding-left: 20px;
 }
 ul.lenses {
 	font-family: Naxos;
-	font-size: 3em;
+	font-size: 2.4em;
 	list-style: none;
-	float: left;
-	position: absolute;
-	top: 40px;
-	left: 0px;
 	text-shadow: 2px 1px 4px #444;
 	color: #222;
+	margin: 10px auto;
+	width: 200px;
+	overflow: auto;
+	padding: 0px;
+}
+ul.lenses li {
+	float: left;
+	border: 1px solid;
+	padding: 10px;
 }
 ul.lenses li:hover {
 	cursor: pointer;
 	color: #222A22;
 }
 .active {
-	color: #AFA;
+	color: #454;
 	text-shadow: 2px 1px 4px #111;
 }
 

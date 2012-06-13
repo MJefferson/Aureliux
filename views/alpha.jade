@@ -1,5 +1,11 @@
 script(src="/javascripts/jquery172.js")
 script(src="/javascripts/views.js")
+ul.lenses
+  li#alpha.active a
+  li#beta b
+  li#gamma g
+  li#delta d
+  li#epsilon e
 a(href='instance/' + inst)
   h1.phrase= phrase
 ul.toolbar
@@ -8,9 +14,3 @@ ul.toolbar
   li#translate TRANSLATE
   li#next NEXT
 #instance.hidden= inst
-ul.lenses
-  li#alpha.active a
-  li#beta b
-  li#gamma g
-  li#delta d
-  li#epsilon e
