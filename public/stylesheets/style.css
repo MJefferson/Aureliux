@@ -40,3 +40,6 @@ ul.toolbar li:first-child {
 ul.toolbar li:hover {
 	color: white;
 }
+.hidden {
+	display: none;
+}

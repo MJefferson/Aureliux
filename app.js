@@ -21,6 +21,7 @@ app.configure(function(){
 
 var Randomizer = require('./lib/randomizer');
 Randomizer.init();
+var Alpha = require('./lib/alpha');
 
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -33,38 +34,35 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', routes.index);
-app.get('/alpha', function(req, res){
 
-	function setupServer(resp){
-		function respond(){
-			consoleFeedback = "Request made. Random phrase is: ";
-			
-			Randomizer.word({ type: "adj"}, function(rw){
-				response = rw + " ";
-				Randomizer.word({type: "noun"}, function(rw){
-					response += rw;
-					console.log(consoleFeedback + response.green);
-					uid = Math.floor(Math.random()*50000);
-					instance = {
-						uid : uid,
-						phrase : response 
-					}
-				  	//db.collection("instances").insert(instance);
-					resp.render('alpha', { title: 'Aureliux', phrase: response, inst: uid});	
-				})
-			});
-		}
-		
-		if (req.url === '/favicon.ico') {
-			res.writeHead(200, {'Content-Type': 'image/x-icon'} );
-		    res.end();
-		    return;
-		} else {
-			respond();
-		}
-	}
+app.get('/alpha.json', function(req, res){
+	consoleFeedback = "Request made. Random phrase is: ";
 	
-	setupServer(res);
+	var lens = new Alpha();
+  	lens.on("fin", function(){
+  		response = lens.response;
+  		console.log(consoleFeedback + response.phrase.green);
+  		res.json(response);
+  	}).aus();
+});
+
+app.get('/alpha', function(req, res){
+	consoleFeedback = "Request made. Random phrase is: ";
+	
+	var lens = new Alpha();
+  	lens.on("fin", function(){
+  		response = lens.response;
+  		console.log(consoleFeedback + response.phrase.green);
+  		res.render('alpha', { title: 'Aureliux', phrase: response.phrase, inst: uid});
+  	});
+  	lens.aus();
+});
+
+app.post('/save', function(req, res){
+	console.log(req.body);
+	resp = req.body;
+	db.collection("instances").insert({ uid: parseInt(resp.uid), phrase: resp.phrase});
+	res.json({status: 200}, 200);
 });
 
 app.get('/instance/:id', function(req,res){
