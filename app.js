@@ -36,27 +36,15 @@ app.configure('production', function(){
 app.get('/', routes.index);
 
 app.get('/alpha.json', function(req, res){
-	consoleFeedback = "Request made. Random phrase is: ";
 	
-	var lens = new Alpha();
-  	lens.on("fin", function(){
-  		response = lens.response;
-  		console.log(consoleFeedback + response.phrase.green);
-  		res.json(response);
-  	});
-  	lens.aus();
+	var lens = new Alpha(res, {format: "json"});
+	lens.aus();
 });
 
 app.get('/alpha', function(req, res){
-	consoleFeedback = "Request made. Random phrase is: ";
 	
-	var lens = new Alpha();
-  	lens.on("fin", function(){
-  		response = lens.response;
-  		console.log(consoleFeedback + response.phrase.green);
-  		res.render('alpha', { title: 'Aureliux', phrase: response.phrase, inst: uid});
-  	});
-  	lens.aus();
+	var lens = new Alpha(res, {format: "html"});
+	lens.aus();
 });
 
 app.post('/save', function(req, res){
