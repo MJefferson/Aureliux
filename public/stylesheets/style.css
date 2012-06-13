@@ -1,3 +1,6 @@
+html {
+	background-color: white;
+}
 @font-face {  
   font-family: Naxos ;  
   src: url( /fonts/NAXOSN.TTF ); format("truetype");  
@@ -6,14 +9,16 @@
 	background-color: #76C000;
 	font-size: 1em;
 	color: white;
-	width: 20%;
 	padding: 20px;
 	letter-spacing: 2px;
+	border-bottom: 15px solid white;
 }
 body {
   padding: 0px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: #333;
+  margin: 0 auto;
+  width: 960px;
 }
 h1 {
 	color: white;
@@ -50,6 +55,12 @@ ul.lenses {
 	width: 200px;
 	overflow: auto;
 	padding: 0px;
+}
+ul#instanceList {
+	list-style: none;
+	color: #AAA;
+	margin: 10px auto;
+	width: 600px;
 }
 ul.lenses li {
 	float: left;

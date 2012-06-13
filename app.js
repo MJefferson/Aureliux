@@ -68,7 +68,7 @@ app.post('/save', function(req, res){
 });
 
 app.get('/instances.json', function(req, res){
-	db.collection("instances").find({}, {limit: 10}).toArray(function(err, result) {
+	db.collection("instances").find({},{"_id": false}, {limit: 20, sort: [["_id", 'desc']]}).toArray(function(err, result) {
 	    res.json({Results: result});
 	});
 });
