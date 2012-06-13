@@ -67,6 +67,12 @@ app.post('/save', function(req, res){
 	res.json({status: 200}, 200);
 });
 
+app.get('/instances.json', function(req, res){
+	db.collection("instances").find({}, {limit: 10}).toArray(function(err, result) {
+	    res.json({Results: result});
+	});
+});
+
 app.get('/instance/:id', function(req,res){
 	db.collection("instances").findOne({ uid: parseInt(req.params.id) }, function(err, result){
 		//console.log(err);
