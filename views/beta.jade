@@ -1,0 +1,16 @@
+script(src="/javascripts/jquery172.js")
+script(src="/javascripts/views.js")
+ul.lenses
+  li#alpha a
+  li#beta.active b
+  li#gamma g
+  li#delta d
+  li#epsilon e
+a(href='instance/' + inst)
+  h1.phrase= phrase
+ul.toolbar
+  li#save SAVE
+  li#share SHARE
+  li#translate TRANSLATE
+  li#next NEXT
+#instance.hidden= inst

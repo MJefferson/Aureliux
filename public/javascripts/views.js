@@ -1,12 +1,13 @@
 
 meta = {};
-  
+lens = document.location.href.substr(document.location.href.lastIndexOf('/'));
+
 $(document).ready(function(){
 	meta.phrase = $('h1.phrase').html();
 	meta.uid = $('#instance').html();
 	$('#next').bind('click', function(){
 		$.ajax({
-			url: '/alpha.json',
+			url: lens + '.json',
 			success: function(data){
 				$('h1.phrase').html(data.phrase);
 				meta = data;
@@ -22,5 +23,11 @@ $(document).ready(function(){
 				console.log("Saved!");
 			}
 		});
+	});
+	$('#alpha').bind('click', function(){
+		document.location.href = "/alpha";
+	});
+	$('#beta').bind('click', function(){
+		document.location.href = "/beta";
 	});
 });

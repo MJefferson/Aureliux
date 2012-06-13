@@ -22,6 +22,7 @@ app.configure(function(){
 var Randomizer = require('./lib/randomizer');
 Randomizer.init();
 var Alpha = require('./lib/alpha');
+var Beta = require('./lib/beta');
 
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -44,6 +45,18 @@ app.get('/alpha.json', function(req, res){
 app.get('/alpha', function(req, res){
 	
 	var lens = new Alpha(res, {format: "html"});
+	lens.aus();
+});
+
+app.get('/beta.json', function(req, res){
+	
+	var lens = new Beta(res, {format: "json"});
+	lens.aus();
+});
+
+app.get('/beta', function(req, res){
+	
+	var lens = new Beta(res, {format: "html"});
 	lens.aus();
 });
 
