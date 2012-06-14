@@ -1,6 +1,6 @@
 
 meta = {};
-history = new Array();
+timeline = new Array();
 lens = document.location.href.substr(document.location.href.lastIndexOf('/'));
 
 $(document).ready(function(){
@@ -9,27 +9,27 @@ $(document).ready(function(){
 	refreshSaves();
 	window.setInterval(refreshSaves, 1000);
 	function addToHistory(obj){
-		if(history.length <= 50 && history.indexOf(obj) == -1){
-			history.push(obj);
+		if(timeline.length <= 50 && timeline.indexOf(obj) == -1){
+			timeline.push(obj);
 		} else {
-			history.shift();
-			history.push(obj);
+			timeline.shift();
+			timeline.push(obj);
 		}
 	}
 	function previousEntry(){
 		
-		if(history.length < 1){
+		if(timeline.length < 1){
 			return false;
 		}
 		
-		var position = history.indexOf(meta);
+		var position = timeline.indexOf(meta);
 		
-		if(history.length > 0 && position > 0 ){
-			var previous = history[position-1];
+		if(timeline.length > 0 && position > 0 ){
+			var previous = timeline[position-1];
 			meta = previous;
 			$('h1.phrase').html(previous.phrase);
 		} else if (position == -1 ){
-			var previous = history[history.length-1];
+			var previous = timeline[timeline.length-1];
 			addToHistory(meta);
 			meta = previous;
 			$('h1.phrase').html(previous.phrase);
@@ -41,11 +41,11 @@ $(document).ready(function(){
 		
 	}
 	function nextEntry(){
-		var position = history.indexOf(meta);
+		var position = timeline.indexOf(meta);
 		
-		if (position > -1 && history.length > (position + 1)) {
-			//load next history
-			var next = history[position+1];
+		if (position > -1 && timeline.length > (position + 1)) {
+			//load next timeline
+			var next = timeline[position+1];
 			$('h1.phrase').html(next.phrase);
 			meta = next;
 			
