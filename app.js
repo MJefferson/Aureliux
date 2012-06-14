@@ -19,6 +19,21 @@ app.configure(function(){
   app.use(express.static(__dirname + '/public'));
 });
 
+io.configure('production', function(){
+  io.enable('browser client minification'); 
+  io.enable('browser client etag');         
+  io.enable('browser client gzip');  
+  io.set('log level', 1);
+
+  io.set('transports', [
+    'websocket'
+  , 'flashsocket'
+  , 'htmlfile'
+  , 'xhr-polling'
+  , 'jsonp-polling'
+  ]);
+});
+
 var Randomizer = require('./lib/randomizer');
 Randomizer.init();
 var Alpha = require('./lib/alpha');
