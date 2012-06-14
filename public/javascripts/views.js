@@ -6,8 +6,10 @@ lens = document.location.href.substr(document.location.href.lastIndexOf('/'));
 $(document).ready(function(){
 	meta.phrase = $('h1.phrase').html();
 	meta.uid = $('#instance').html();
+	var socket = io.connect('http://localhost');
+	
 	refreshSaves();
-	window.setInterval(refreshSaves, 1000);
+	//window.setInterval(refreshSaves, 1000);
 	function addToHistory(obj){
 		if(timeline.length <= 50 && timeline.indexOf(obj) == -1){
 			timeline.push(obj);
@@ -93,13 +95,20 @@ $(document).ready(function(){
 			data: {uid: meta.uid, phrase: meta.phrase},
 			success: function(data){
 				console.log("Saved!");
+				refreshSaves();
 			}
 		});
+		socket.emit('save');
 	});
 	$('#alpha').bind('click', function(){
 		document.location.href = "/alpha";
 	});
 	$('#beta').bind('click', function(){
 		document.location.href = "/beta";
+	});
+	
+	
+	socket.on('newsave', function (data) {
+		refreshSaves();
 	});
 });

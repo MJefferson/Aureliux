@@ -7,7 +7,7 @@ var express = require('express'), routes = require('./routes'), mongo = require(
     db = mongo.db('localhost:27017/aurelius?auto_reconnect'), colors = require('colors');
 
 var app = module.exports = express.createServer();
-
+io = require('socket.io').listen(app);
 // Configuration
 
 app.configure(function(){
@@ -65,6 +65,13 @@ app.post('/save', function(req, res){
 	resp = req.body;
 	db.collection("instances").insert({ uid: parseInt(resp.uid), phrase: resp.phrase});
 	res.json({status: 200}, 200);
+	
+});
+
+io.sockets.on('connection', function (socket) {
+  socket.on('save', function(event){
+  	socket.broadcast.emit('newsave');
+  });
 });
 
 app.get('/instances.json', function(req, res){
