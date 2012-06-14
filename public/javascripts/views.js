@@ -6,7 +6,7 @@ lens = document.location.href.substr(document.location.href.lastIndexOf('/'));
 $(document).ready(function(){
 	meta.phrase = $('h1.phrase').html();
 	meta.uid = $('#instance').html();
-	var socket = io.connect('http://localhost');
+	var socket = io.connect(socketaddr);
 	
 	refreshSaves();
 	//window.setInterval(refreshSaves, 1000);

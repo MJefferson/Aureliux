@@ -4,7 +4,7 @@
  */
 
 var express = require('express'), routes = require('./routes'), mongo = require('mongoskin'),
-    db = mongo.db('localhost:27017/aurelius?auto_reconnect'), colors = require('colors');
+    db = mongo.db('localhost:27017/aurelius?auto_reconnect'), colors = require('colors'), expose = require('express-expose');
 
 var app = module.exports = express.createServer();
 io = require('socket.io').listen(app);
@@ -26,10 +26,12 @@ var Beta = require('./lib/beta');
 
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  app.expose('var socketaddr = "http://localhost";');
 });
 
 app.configure('production', function(){
   app.use(express.errorHandler());
+  app.expose('var socketaddr = "http://ec2-184-72-141-167.compute-1.amazonaws.com";');
 });
 
 // Routes
