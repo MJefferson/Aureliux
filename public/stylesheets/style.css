@@ -59,7 +59,7 @@ ul#instanceList {
 	list-style: none;
 	color: #CCC;
 	margin: 10px auto;
-	width: 400px;
+	width: 640px;
 }
 ul#instanceList li:hover {
 	color: white;
@@ -68,9 +68,10 @@ ul#instanceList div.phrase {
 	width: 300px;
 	display: inline;
 }
-.time {
+ul#instanceList span.time {
 	color: #444;
 	margin-left: 5px;
+	font-size: 10px;
 }
 ul.lenses li {
 	float: left;
