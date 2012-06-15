@@ -68,11 +68,15 @@ $(document).ready(function(){
 			success: function(data){
 				$("#instanceList").html("");
 				data.Results.forEach(function(inst){
-					$("#instanceList").append("<li>" + inst.phrase + "</li>");
+					var time = getTimestamp(inst);
+					$("#instanceList").append("<li><div class=phrase>" + inst.phrase + "</div> <span class='time'>" + moment(time).fromNow() + "</span></li>");
 				});
 				$('h1.phrase').html(data.phrase);
 			}
 		});
+	}
+	function getTimestamp(instance){
+   	 return new Date(parseInt(instance._id.toString().slice(0,8), 16)*1000);
 	}		
 	$(document).bind('keydown', function(event){
 		if(event.which == 39){

@@ -57,9 +57,20 @@ ul.lenses {
 }
 ul#instanceList {
 	list-style: none;
-	color: #AAA;
+	color: #CCC;
 	margin: 10px auto;
-	width: 600px;
+	width: 400px;
+}
+ul#instanceList li:hover {
+	color: white;
+}
+ul#instanceList div.phrase {
+	width: 300px;
+	display: inline;
+}
+.time {
+	color: #444;
+	margin-left: 5px;
 }
 ul.lenses li {
 	float: left;
