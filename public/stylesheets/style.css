@@ -35,7 +35,7 @@ a {
   text-decoration: none;
 }
 ul.toolbar {
-	width: 275px;
+	width: 300px;
 	height: 75px;
 	margin: 0px auto;
 	border-radius: 5px;
@@ -51,7 +51,7 @@ ul.lenses {
 	text-shadow: 2px 1px 4px #444;
 	color: #222;
 	margin: 30px auto;
-	width: 200px;
+	width: 220px;
 	overflow: auto;
 	padding: 0px;
 }

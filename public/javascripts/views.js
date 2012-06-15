@@ -133,6 +133,8 @@ $(document).ready(function(){
 		refreshSaves();
 	});
 	
+	addSwipeListener(document.body, nextEntry);
+	
 	nextEntry();
 	refreshSaves();
 });
