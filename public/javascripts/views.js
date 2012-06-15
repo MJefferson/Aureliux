@@ -133,7 +133,18 @@ $(document).ready(function(){
 		refreshSaves();
 	});
 	
-	addSwipeListener(document.body, nextEntry);
+	$( window ).swipe({
+	    left: function() {
+	        previousEntry();
+	    },
+	    right: function() {
+	        nextEntry();
+	    },
+	    threshold: {
+	        x: 200,
+	        y: 50
+	    }
+	});
 	
 	nextEntry();
 	refreshSaves();
