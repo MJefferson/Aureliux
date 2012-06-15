@@ -75,6 +75,18 @@ $(document).ready(function(){
 			}
 		});
 	}
+	function savePhrase(){
+		$.ajax({
+			type: "POST",
+			url: '/save',
+			data: {uid: meta.uid, phrase: meta.phrase},
+			success: function(data){
+				console.log("Saved!");
+				refreshSaves();
+			}
+		});
+		socket.emit('save');
+	}
 	function getTimestamp(instance){
    	 return new Date(parseInt(instance._id.toString().slice(0,8), 16)*1000);
 	}		
@@ -88,21 +100,15 @@ $(document).ready(function(){
 		if(event.which == 37){
 			previousEntry();
 		}
+		if(event.which == 83){
+			savePhrase();
+		}
 	});
 	$('#next').bind('click', function(){
 		nextEntry();
 	});
 	$('#save').bind('click', function(){
-		$.ajax({
-			type: "POST",
-			url: '/save',
-			data: {uid: meta.uid, phrase: meta.phrase},
-			success: function(data){
-				console.log("Saved!");
-				refreshSaves();
-			}
-		});
-		socket.emit('save');
+		savePhrase();
 	});
 	$('#alpha').bind('click', function(){
 		document.location.href = "/alpha";
