@@ -124,6 +124,10 @@ $(document).ready(function(){
 		if(lens !== "beta") switchLens("beta");
 		nextEntry();
 	});
+	$('#gamma').bind('click', function(){
+		if(lens !== "gamma") switchLens("gamma");
+		nextEntry();
+	});
 	
 	socket.on('newsave', function (data) {
 		refreshSaves();
