@@ -1,14 +1,13 @@
 
 meta = {};
 timeline = new Array();
-lens = document.location.href.substr(document.location.href.lastIndexOf('/'));
+lens = "alpha";
 
 $(document).ready(function(){
-	meta.phrase = $('h1.phrase').html();
-	meta.uid = $('#instance').html();
+	//meta.phrase = $('h1.phrase').html();
+	//meta.uid = $('#instance').html();
 	var socket = io.connect(socketaddr);
 	
-	refreshSaves();
 	//window.setInterval(refreshSaves, 1000);
 	function addToHistory(obj){
 		if(timeline.length <= 50 && timeline.indexOf(obj) == -1){
@@ -53,7 +52,7 @@ $(document).ready(function(){
 			
 		} else {
 			$.ajax({
-				url: lens + '.json',
+				url: '/' + lens + '.json',
 				success: function(data){
 					addToHistory(data);
 					$('h1.phrase').html(data.phrase);
@@ -87,6 +86,13 @@ $(document).ready(function(){
 		});
 		socket.emit('save');
 	}
+	function switchLens(newlens){
+		var oldlens = lens;
+		lens = newlens;
+		nextEntry();
+		$('ul.lenses #' + newlens).addClass('active');
+		$('ul.lenses #' + oldlens).removeClass('active');
+	}
 	function getTimestamp(instance){
    	 return new Date(parseInt(instance._id.toString().slice(0,8), 16)*1000);
 	}		
@@ -111,14 +117,18 @@ $(document).ready(function(){
 		savePhrase();
 	});
 	$('#alpha').bind('click', function(){
-		document.location.href = "/alpha";
+		if(lens !== "alpha") switchLens("alpha");
+		nextEntry();
 	});
 	$('#beta').bind('click', function(){
-		document.location.href = "/beta";
+		if(lens !== "beta") switchLens("beta");
+		nextEntry();
 	});
-	
 	
 	socket.on('newsave', function (data) {
 		refreshSaves();
 	});
+	
+	nextEntry();
+	refreshSaves();
 });

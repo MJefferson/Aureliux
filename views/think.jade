@@ -1,0 +1,19 @@
+script!= javascript
+script(src="/javascripts/jquery172.js")
+script(src="/socket.io/socket.io.js")
+script(src="/javascripts/moment.min.js")
+script(src="/javascripts/views.js")
+ul.lenses
+  li#alpha.active a
+  li#beta b
+  li#gamma g
+  li#delta d
+  li#epsilon e
+h1.phrase= phrase
+ul.toolbar
+  li#save SAVE
+  li#share SHARE
+  li#translate TRANSLATE
+  li#next NEXT
+ul#instanceList
+#instance.hidden= inst

@@ -53,27 +53,18 @@ app.configure('production', function(){
 
 app.get('/', routes.index);
 
-app.get('/alpha.json', function(req, res){
-	
-	var lens = new Alpha(res, {format: "json"});
-	lens.aus();
-});
-
-app.get('/alpha', function(req, res){
-	
+app.get('/think', function(req, res){
 	var lens = new Alpha(res, {format: "html"});
 	lens.aus();
 });
 
-app.get('/beta.json', function(req, res){
-	
-	var lens = new Beta(res, {format: "json"});
+app.get('/alpha.json', function(req, res){
+	var lens = new Alpha(res, {format: "json"});
 	lens.aus();
 });
 
-app.get('/beta', function(req, res){
-	
-	var lens = new Beta(res, {format: "html"});
+app.get('/beta.json', function(req, res){
+	var lens = new Beta(res, {format: "json"});
 	lens.aus();
 });
 
@@ -82,7 +73,6 @@ app.post('/save', function(req, res){
 	resp = req.body;
 	db.collection("instances").insert({ uid: parseInt(resp.uid), phrase: resp.phrase});
 	res.json({status: 200}, 200);
-	
 });
 
 io.sockets.on('connection', function (socket) {
