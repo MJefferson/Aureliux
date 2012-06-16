@@ -47,7 +47,7 @@ app.configure('development', function(){
 
 app.configure('production', function(){
   app.use(express.errorHandler());
-  app.expose('var socketaddr = "http://ec2-184-72-141-167.compute-1.amazonaws.com";');
+  app.expose('var socketaddr = "http://184.72.234.5";');
 });
 
 // Routes
