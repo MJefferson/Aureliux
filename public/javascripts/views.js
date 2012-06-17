@@ -89,7 +89,6 @@ $(document).ready(function(){
 	function switchLens(newlens){
 		var oldlens = lens;
 		lens = newlens;
-		nextEntry();
 		$('ul.lenses #' + newlens).addClass('active');
 		$('ul.lenses #' + oldlens).removeClass('active');
 	}
