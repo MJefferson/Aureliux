@@ -54,6 +54,7 @@ ul.lenses {
 	width: 220px;
 	overflow: auto;
 	padding: 0px;
+	position: absolute;
 }
 ul#instanceList {
 	list-style: none;
@@ -74,9 +75,9 @@ ul#instanceList span.time {
 	font-size: 10px;
 }
 ul.lenses li {
-	float: left;
 	border: 1px solid;
 	padding: 10px;
+	width: 35px;
 }
 ul.lenses li:hover {
 	cursor: pointer;
