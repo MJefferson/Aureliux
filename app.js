@@ -74,6 +74,26 @@ app.get('/gamma.json', function(req, res){
 	lens.aus();
 });
 
+app.get('/renoun.json', function(req, res){
+	Randomizer.rebuild("noun");
+	res.json({status: 200}, 200);
+});
+
+app.get('/reverb.json', function(req, res){
+	Randomizer.rebuild("verb");
+	res.json({status: 200}, 200);
+});
+
+app.get('/readj.json', function(req, res){
+	Randomizer.rebuild("adj");
+	res.json({status: 200}, 200);
+});
+
+app.get('/readv.json', function(req, res){
+	Randomizer.rebuild("adv");
+	res.json({status: 200}, 200);
+});
+
 app.post('/save', function(req, res){
 	console.log(req.body);
 	resp = req.body;
