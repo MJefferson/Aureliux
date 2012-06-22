@@ -108,7 +108,9 @@ io.sockets.on('connection', function (socket) {
 });
 
 app.get('/instances.json', function(req, res){
-	db.collection("instances").find({},{limit: 20, sort: [["_id", 'desc']]}).toArray(function(err, result) {
+	var page = req.query.page || 0;
+	console.log("page is: " + page);
+	db.collection("instances").find({},{limit: 20, skip: page*20, sort: [["_id", 'desc']]}).toArray(function(err, result) {
 	    res.json({Results: result});
 	});
 });
@@ -118,6 +120,21 @@ app.get('/instance/:id', function(req,res){
 		//console.log(err);
 		res.render('alpha', { title: 'Aureliux', phrase: result.phrase, inst: req.params.id });
 	});
+});
+
+app.put('/instance/:id', function(req,res){
+	uid = req.params.id || null;
+	tags = req.body.tags || null;
+	
+	if(uid !== null && tags !== null){
+		tagArray = tags.split(',');
+		db.collection("instances").update({uid: parseInt(uid)}, {'$addToSet': {tags: { '$each': tagArray}}}, function(error, result){
+			if (error) throw error;
+			res.json({Result: result}, 200);
+		});
+	} else {
+		res.json({Error: "No instance specified or no new tags given."}, 404);
+	}
 });
 
 app.listen(3005, function(){

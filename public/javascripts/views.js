@@ -2,6 +2,7 @@
 meta = {};
 timeline = new Array();
 lens = "alpha";
+page = 0;
 
 $(document).ready(function(){
 	//meta.phrase = $('h1.phrase').html();
@@ -64,13 +65,17 @@ $(document).ready(function(){
 	function refreshSaves(){
 		$.ajax({
 			url: 'instances.json',
+			data: {page: page},
 			success: function(data){
 				$("#instanceList").html("");
 				data.Results.forEach(function(inst){
 					var time = getTimestamp(inst);
-					$("#instanceList").append("<li><div class=phrase>" + inst.phrase + "</div> <span class='time'>" + moment(time).fromNow() + "</span></li>");
+					$("#instanceList").append("<li><span id='"+ inst.uid +"' class='addtag'>TAG</span><div class=phrase>" + inst.phrase + "</div> <span class='time'>" + moment(time).fromNow() + "</span></li>");
 				});
-				$('h1.phrase').html(data.phrase);
+				$('span.addtag').bind('click', function(){
+					$('#tagger .uid').attr('value', $(this).attr('id'));
+					$('#tagger').removeClass('hidden');
+				});
 			}
 		});
 	}
@@ -128,6 +133,30 @@ $(document).ready(function(){
 		nextEntry();
 	});
 	
+	$('#paging .prev').bind('click', function(){
+		if(page > 0){
+			page--;
+			$('#paging .current').html(page);
+			refreshSaves();
+		}
+	});
+	$('#paging .next').bind('click', function(){
+		page++;
+		$('#paging .current').html(page);
+		refreshSaves();
+	});
+	$('#tagger input[type="submit"]').bind('click', function(){
+		var uid = $('#tagger .uid').attr('value');
+		var tags = $('#tagger .tags').attr('value');
+		$.ajax({
+			type: "PUT",
+			url: '/instance/' + uid,
+			data: {tags: tags},
+			success: function(data){
+				console.log(data);
+			}
+		});
+	});
 	socket.on('newsave', function (data) {
 		refreshSaves();
 	});

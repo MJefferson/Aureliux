@@ -73,6 +73,11 @@ ul#instanceList span.time {
 	margin-left: 5px;
 	font-size: 10px;
 }
+span.addtag {
+	color: #55C;
+	font-size: 10px;
+	margin-right: 5px;
+}
 ul.lenses li {
 	float: left;
 	border: 1px solid;
@@ -81,6 +86,20 @@ ul.lenses li {
 ul.lenses li:hover {
 	cursor: pointer;
 	color: #222A22;
+}
+ul#paging {
+	overflow: auto;
+	margin: 0 auto;
+	width: 500px;
+	color: white;
+	list-style: none;
+}
+ul#paging li {
+	float: right;
+	margin-left: 5px;
+}
+ul#paging .next, ul#paging .prev {
+	cursor: pointer;
 }
 .active {
 	color: #454;
