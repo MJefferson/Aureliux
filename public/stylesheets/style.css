@@ -120,3 +120,6 @@ ul.toolbar li:hover {
 .hidden {
 	display: none;
 }
+span.taggerText {
+	color: white;
+}

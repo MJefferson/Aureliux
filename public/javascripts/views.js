@@ -74,7 +74,19 @@ $(document).ready(function(){
 				});
 				$('span.addtag').bind('click', function(){
 					$('#tagger .uid').attr('value', $(this).attr('id'));
-					$('#tagger').removeClass('hidden');
+					$('#tagger').modal({
+						overlayClose: true,
+						opacity:90,
+						overlayCss: {backgroundColor:"#000"},
+						onOpen: function (dialog) {
+								dialog.overlay.fadeIn('slow', function () {
+									dialog.data.show();
+									dialog.container.slideDown('slow', function () {
+										//dialog.data.fadeIn('slow');
+									});
+								});
+							}
+					});
 				});
 			}
 		});
