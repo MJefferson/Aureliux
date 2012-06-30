@@ -147,7 +147,11 @@ ul#paging .next, ul#paging .prev {
 span.taggerText {
 	color: white;
 }
-
+.instanceText {
+	font-weight: bold;
+	padding: 7px 0;
+	color: #76C000;
+}
 .tags ul {
 	list-style: none;
 	overflow: auto;

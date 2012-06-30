@@ -62,7 +62,7 @@ $(document).ready(function(){
 			});
 		}
 	}
-	function refreshSaves(){
+	function refreshSaves(callback){
 		$.ajax({
 			url: 'instances.json',
 			data: {page: page},
@@ -75,6 +75,8 @@ $(document).ready(function(){
 				});
 				$('span.addtag').bind('click', function(){
 					$('#tagger .uid').attr('value', $(this).parent('li').attr('id'));
+					$('#tagger .instanceText').html($(this).siblings('.phrase').html());
+					
 					$('#tagger').modal({
 						overlayClose: true,
 						opacity:90,
@@ -84,11 +86,19 @@ $(document).ready(function(){
 									dialog.data.show();
 									dialog.container.slideDown('slow', function () {
 										//dialog.data.fadeIn('slow');
+										$('input.tags').focus();
 									});
 								});
-							}
+						},
+						onClose: function (dialog) {
+							dialog.data.hide();
+							dialog.overlay.fadeOut('slow', function () {
+								$.modal.close();
+							});
+						}
 					});
 				});
+				$('#instanceList').animate({opacity: 1}, 200);
 			}
 		});
 	}
@@ -149,12 +159,18 @@ $(document).ready(function(){
 	$('#paging .prev').bind('click', function(){
 		if(page > 0){
 			page--;
+			$('#instanceList').css({
+			    opacity: 0
+	  		});
 			$('#paging .current').html(page);
 			refreshSaves();
 		}
 	});
 	$('#paging .next').bind('click', function(){
 		page++;
+		$('#instanceList').css({
+			    opacity: 0
+  		});
 		$('#paging .current').html(page);
 		refreshSaves();
 	});
@@ -173,7 +189,8 @@ $(document).ready(function(){
 	}
 	
 	
-	$('#tagger input[type="submit"]').bind('click', function(){
+	$('#tagger input[type="submit"]').bind('click', function(e){
+		e.preventDefault();
 		var uid = $('#tagger .uid').attr('value');
 		var tags = $('#tagger .tags').attr('value');
 		$.ajax({
@@ -182,6 +199,8 @@ $(document).ready(function(){
 			data: {tags: tags},
 			success: function(data){
 				console.log(data);
+				$.modal.close();
+				refreshSaves();
 			}
 		});
 	});
