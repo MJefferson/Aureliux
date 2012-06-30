@@ -6,26 +6,27 @@ script(src="/javascripts/swipeEvent.js")
 script(src="/javascripts/jquery.simplemodal.1.4.2.min.js")
 script(src="/javascripts/views.js")
 ul.lenses
-  li#alpha.active a
-  li#beta b
-  li#gamma g
-  li#delta d
-  li#epsilon e
+	li#alpha.active a
+	li#beta b
+	li#gamma g
+	li#delta d
+	li#epsilon e
 h1.phrase= phrase
 ul.toolbar
-  li#save SAVE
-  li#share SHARE
-  li#translate TRANSLATE
-  li#next NEXT
-ul#paging
-  li.next &#62;
-  li.current 0 
-  li.prev &#60;
+	li#save SAVE
+	li#share SHARE
+	li#translate TRANSLATE
+	li#next NEXT
 ul#instanceList
+.pagingContainer
+	ul#paging
+		li.prev &#60;
+		li.current 0 
+		li.next &#62;  
 #instance.hidden= inst
 #tagger.hidden
-  input.uid(type="hidden", name= "uid")
-  span.taggerText Please enter (comma-separated) tags
-  br
-  input.tags(name= "tags")
-  input(type="submit", value="Tag")
+	input.uid(type="hidden", name= "uid")
+	span.taggerText Please enter (comma-separated) tags
+	br
+	input.tags(name= "tags")
+	input(type="submit", value="Tag")

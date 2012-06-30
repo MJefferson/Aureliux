@@ -34,6 +34,12 @@ a {
   color: #00B7FF;
   text-decoration: none;
 }
+
+/*
+ * The toolbar beneath the newly generated instance. Save, Share, etc
+ * 
+ */
+
 ul.toolbar {
 	width: 300px;
 	height: 75px;
@@ -44,17 +50,24 @@ ul.toolbar {
 	font-size: 1em;
 	padding-left: 20px;
 }
-ul.lenses {
-	font-family: Naxos;
-	font-size: 2.4em;
-	list-style: none;
-	text-shadow: 2px 1px 4px #444;
-	color: #222;
-	margin: 30px auto;
-	width: 220px;
-	overflow: auto;
-	padding: 0px;
+
+ul.toolbar li {
+	float: left;
+	padding: 30px 10px;
+	cursor: pointer;
 }
+ul.toolbar li:first-child {
+	padding-left: 10px;
+}
+ul.toolbar li:hover {
+	color: white;
+}
+
+/*
+ * The list/ticker of saved instances
+ * 
+ */
+
 ul#instanceList {
 	list-style: none;
 	color: #CCC;
@@ -78,6 +91,21 @@ span.addtag {
 	font-size: 10px;
 	margin-right: 5px;
 }
+/*
+ * the list of lexical "lenses"
+ * 
+ */
+ul.lenses {
+	font-family: Naxos;
+	font-size: 2.4em;
+	list-style: none;
+	text-shadow: 2px 1px 4px #444;
+	color: #222;
+	margin: 30px auto;
+	width: 220px;
+	overflow: auto;
+	padding: 0px;
+}
 ul.lenses li {
 	float: left;
 	border: 1px solid;
@@ -87,39 +115,49 @@ ul.lenses li:hover {
 	cursor: pointer;
 	color: #222A22;
 }
-ul#paging {
-	overflow: auto;
-	margin: 0 auto;
-	width: 500px;
-	color: white;
-	list-style: none;
-}
-ul#paging li {
-	float: right;
-	margin-left: 5px;
-}
-ul#paging .next, ul#paging .prev {
-	cursor: pointer;
-}
 .active {
 	color: #454;
 	text-shadow: 2px 1px 4px #111;
 }
-
-ul.toolbar li {
+/*
+ *  The paging toolbar for the list of instances
+ * 
+ */
+ul#paging {
+	overflow: auto;
+	margin: 0 auto;
+	width: 150px;
+	color: #CCC;
+	list-style: none;
+	margin: 0 auto;
+}
+ul#paging li {
 	float: left;
-	padding: 30px 10px;
+	margin-right: 30px;
+}
+ul#paging .next, ul#paging .prev {
 	cursor: pointer;
 }
-ul.toolbar li:first-child {
-	padding-left: 10px;
-}
-ul.toolbar li:hover {
-	color: white;
-}
+
+
 .hidden {
 	display: none;
 }
+
 span.taggerText {
 	color: white;
+}
+
+.tags ul {
+	list-style: none;
+	overflow: auto;
+}
+.tags li {
+	float: left;
+    padding: 2px;
+    background-color: green;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-size: 11px;
+    margin-right: 3px;
 }

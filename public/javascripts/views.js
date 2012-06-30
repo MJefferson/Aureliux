@@ -70,10 +70,11 @@ $(document).ready(function(){
 				$("#instanceList").html("");
 				data.Results.forEach(function(inst){
 					var time = getTimestamp(inst);
-					$("#instanceList").append("<li><span id='"+ inst.uid +"' class='addtag'>TAG</span><div class=phrase>" + inst.phrase + "</div> <span class='time'>" + moment(time).fromNow() + "</span></li>");
+					$("#instanceList").append("<li id='"+ inst.uid +"'><span class='addtag'>TAG</span><div class=phrase>" + inst.phrase + "</div> <span class='time'>" + moment(time).fromNow() + "</span><div class='tags'></div></li>");
+					updateTagList(inst, $("#" + inst.uid + " > .tags"))
 				});
 				$('span.addtag').bind('click', function(){
-					$('#tagger .uid').attr('value', $(this).attr('id'));
+					$('#tagger .uid').attr('value', $(this).parent('li').attr('id'));
 					$('#tagger').modal({
 						overlayClose: true,
 						opacity:90,
@@ -157,6 +158,21 @@ $(document).ready(function(){
 		$('#paging .current').html(page);
 		refreshSaves();
 	});
+	
+	//There needs to be a function that takes an instance object, and target elem and renders a tag list
+	function updateTagList(instance, targetEl){
+		if(instance.tags && instance.tags.length > 0){
+			var list = "<ul>";
+			
+			instance.tags.forEach(function(val, i, arr){
+				list += "<li>" + val + "</li>";	
+			});
+			list += "</ul>"
+			$(targetEl).html(list);
+		}
+	}
+	
+	
 	$('#tagger input[type="submit"]').bind('click', function(){
 		var uid = $('#tagger .uid').attr('value');
 		var tags = $('#tagger .tags').attr('value');
