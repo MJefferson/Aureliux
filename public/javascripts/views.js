@@ -70,10 +70,10 @@ $(document).ready(function(){
 				$("#instanceList").html("");
 				data.Results.forEach(function(inst){
 					var time = getTimestamp(inst);
-					$("#instanceList").append("<li id='"+ inst.uid +"'><span class='addtag'>TAG</span><div class=phrase>" + inst.phrase + "</div> <span class='time'>" + moment(time).fromNow() + "</span><div class='tags'></div></li>");
-					updateTagList(inst, $("#" + inst.uid + " > .tags"))
+					$("#instanceList").append("<li id='"+ inst.uid +"'><ul class='entry'><li class='addtag'>+</li><li class=phrase>" + inst.phrase + "</li> <li class='tags'></li></ul><div class='time'>" + moment(time).fromNow() + "</div></li>");
+					updateTagList(inst, $("#" + inst.uid + " .tags"))
 				});
-				$('span.addtag').bind('click', function(){
+				$('.addtag').bind('click', function(){
 					$('#tagger .uid').attr('value', $(this).parent('li').attr('id'));
 					$('#tagger .instanceText').html($(this).siblings('.phrase').html());
 					

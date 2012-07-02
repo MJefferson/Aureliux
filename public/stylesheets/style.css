@@ -74,22 +74,37 @@ ul#instanceList {
 	margin: 10px auto;
 	width: 640px;
 }
+ul#instanceList > li {
+	margin-bottom: 5px;
+}
 ul#instanceList li:hover {
 	color: white;
+}
+ul#instanceList ul {
+	list-style: none;
+	overflow: auto;
+	padding: 0;
+}
+ul#instanceList ul li {
+	float: left;
+	margin-right: 3px;
 }
 ul#instanceList div.phrase {
 	width: 300px;
 	display: inline;
 }
-ul#instanceList span.time {
+ul#instanceList .time {
 	color: #444;
-	margin-left: 5px;
+	margin-left: 20px;
 	font-size: 10px;
 }
-span.addtag {
+.addtag {
 	color: #55C;
 	font-size: 10px;
 	margin-right: 5px;
+	width: 10px;
+	padding-top: 3px;
+	cursor: pointer;
 }
 /*
  * the list of lexical "lenses"
@@ -155,6 +170,7 @@ span.taggerText {
 .tags ul {
 	list-style: none;
 	overflow: auto;
+	display: inline;
 }
 .tags li {
 	float: left;

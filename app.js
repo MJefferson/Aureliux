@@ -109,8 +109,8 @@ io.sockets.on('connection', function (socket) {
 
 app.get('/instances.json', function(req, res){
 	var page = req.query.page || 0;
-	console.log("page is: " + page);
-	db.collection("instances").find({},{limit: 20, skip: page*20, sort: [["_id", 'desc']]}).toArray(function(err, result) {
+	var size = 20;
+	db.collection("instances").find({},{limit: size, skip: page*size, sort: [["_id", 'desc']]}).toArray(function(err, result) {
 	    res.json({Results: result});
 	});
 });
