@@ -74,7 +74,7 @@ $(document).ready(function(){
 					updateTagList(inst, $("#" + inst.uid + " .tags"))
 				});
 				$('.addtag').bind('click', function(){
-					$('#tagger .uid').attr('value', $(this).parent('li').attr('id'));
+					$('#tagger .uid').attr('value', $(this).parents('li').attr('id'));
 					$('#tagger .instanceText').html($(this).siblings('.phrase').html());
 					
 					$('#tagger').modal({
