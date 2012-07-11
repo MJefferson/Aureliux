@@ -3,6 +3,7 @@ meta = {};
 timeline = new Array();
 lens = "alpha";
 page = 0;
+tagging = false;
 
 $(document).ready(function(){
 	//meta.phrase = $('h1.phrase').html();
@@ -82,6 +83,7 @@ $(document).ready(function(){
 						opacity:90,
 						overlayCss: {backgroundColor:"#000"},
 						onOpen: function (dialog) {
+								tagging = true;
 								dialog.overlay.fadeIn('slow', function () {
 									dialog.data.show();
 									dialog.container.slideDown('slow', function () {
@@ -91,6 +93,7 @@ $(document).ready(function(){
 								});
 						},
 						onClose: function (dialog) {
+							tagging = false;
 							dialog.data.hide();
 							dialog.overlay.fadeOut('slow', function () {
 								$.modal.close();
@@ -133,7 +136,7 @@ $(document).ready(function(){
 		if(event.which == 37){
 			previousEntry();
 		}
-		if(event.which == 83){
+		if(event.which == 83 && !tagging){
 			savePhrase();
 		}
 	});
