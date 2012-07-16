@@ -17,6 +17,7 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
+  app.use(express.favicon(__dirname + '/public/favicon.ico', { maxAge: 2592000000 }));
 });
 
 io.configure('production', function(){
@@ -112,6 +113,14 @@ app.get('/instances.json', function(req, res){
 	var size = 20;
 	db.collection("instances").find({},{limit: size, skip: page*size, sort: [["_id", 'desc']]}).toArray(function(err, result) {
 	    res.json({Results: result});
+	});
+});
+
+app.get('/instances/:tags', function(req, res){
+	
+	tags = req.params.tags.split(',');
+	db.collection("instances").find({tags: {$in: tags}}).toArray(function(err, result){
+		res.json({ tags: tags, instances: result});
 	});
 });
 
