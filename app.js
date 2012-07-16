@@ -95,10 +95,10 @@ app.get('/readv.json', function(req, res){
 	res.json({status: 200}, 200);
 });
 
-app.post('/save', function(req, res){
+app.post('/instances', function(req, res){
 	console.log(req.body);
 	resp = req.body;
-	db.collection("instances").insert({ uid: parseInt(resp.uid), phrase: resp.phrase});
+	db.collection("instances").insert({ uid: parseInt(resp.uid), phrase: resp.phrase, lens: resp.lens});
 	res.json({status: 200}, 200);
 });
 

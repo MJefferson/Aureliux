@@ -108,8 +108,8 @@ $(document).ready(function(){
 	function savePhrase(){
 		$.ajax({
 			type: "POST",
-			url: '/save',
-			data: {uid: meta.uid, phrase: meta.phrase},
+			url: '/instances',
+			data: {uid: meta.uid, phrase: meta.phrase, lens: lens},
 			success: function(data){
 				console.log("Saved!");
 				refreshSaves();
