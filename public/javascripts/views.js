@@ -10,7 +10,6 @@ $(document).ready(function(){
 	//meta.uid = $('#instance').html();
 	var socket = io.connect(socketaddr);
 	
-	//window.setInterval(refreshSaves, 1000);
 	function addToHistory(obj){
 		if(timeline.length <= 50 && timeline.indexOf(obj) == -1){
 			timeline.push(obj);
@@ -19,6 +18,7 @@ $(document).ready(function(){
 			timeline.push(obj);
 		}
 	}
+	
 	function previousEntry(){
 		
 		if(timeline.length < 1){
@@ -43,6 +43,7 @@ $(document).ready(function(){
 		}
 		
 	}
+	
 	function nextEntry(){
 		var position = timeline.indexOf(meta);
 		
@@ -74,33 +75,7 @@ $(document).ready(function(){
 					$("#instanceList").append("<li id='"+ inst.uid +"'><ul class='entry'><li class='addtag'>+</li><li class=phrase>" + inst.phrase + "</li> <li class='tags'></li></ul><div class='time'>" + moment(time).fromNow() + "</div></li>");
 					updateTagList(inst, $("#" + inst.uid + " .tags"))
 				});
-				$('.addtag').bind('click', function(){
-					$('#tagger .uid').attr('value', $(this).parents('li').attr('id'));
-					$('#tagger .instanceText').html($(this).siblings('.phrase').html());
-					
-					$('#tagger').modal({
-						overlayClose: true,
-						opacity:90,
-						overlayCss: {backgroundColor:"#000"},
-						onOpen: function (dialog) {
-								tagging = true;
-								dialog.overlay.fadeIn('slow', function () {
-									dialog.data.show();
-									dialog.container.slideDown('slow', function () {
-										//dialog.data.fadeIn('slow');
-										$('input.tags').focus();
-									});
-								});
-						},
-						onClose: function (dialog) {
-							tagging = false;
-							dialog.data.hide();
-							dialog.overlay.fadeOut('slow', function () {
-								$.modal.close();
-							});
-						}
-					});
-				});
+				bindAddTags();
 				$('#instanceList').animate({opacity: 1}, 200);
 			}
 		});
@@ -184,13 +159,24 @@ $(document).ready(function(){
 			var list = "<ul>";
 			
 			instance.tags.forEach(function(val, i, arr){
-				list += "<li>" + val + "</li>";	
+				list += "<li class='tag'>" + val + "</li>";	
 			});
 			list += "</ul>"
 			$(targetEl).html(list);
+			makeTagsFilters();
 		}
 	}
 	
+	function makeTagsFilters(){
+		$('li.tag').bind('click', function(e){
+			e.preventDefault();
+			var text = $(this).html();
+			var filters = $('ul.filters').html();
+			if(filters.indexOf(text) === -1){
+				$('ul.filters').html(filters + "<li>" + text + "</li>");
+			}
+		})
+	}
 	
 	$('#tagger input[type="submit"]').bind('click', function(e){
 		e.preventDefault();
@@ -201,12 +187,78 @@ $(document).ready(function(){
 			url: '/instance/' + uid,
 			data: {tags: tags},
 			success: function(data){
-				console.log(data);
 				$.modal.close();
-				refreshSaves();
 			}
 		});
 	});
+	function bindAddTags(){
+		$('.addtag').bind('click', function(){
+			var instanceId = $(this).parents('li').attr('id');
+			$('#tagger .uid').attr('value', instanceId);
+			$('#tagger .instanceText').html($(this).siblings('.phrase').html());
+			openTagModal();
+			listCurrentTags(instanceId, $('ul.currentTags'));
+		});
+	}
+	function openTagModal(){
+		$('#tagger').modal({
+			overlayClose: true,
+			opacity:90,
+			overlayCss: {backgroundColor:"#000"},
+			onOpen: function (dialog) {
+					tagging = true;
+					dialog.overlay.fadeIn('slow', function () {
+						dialog.data.show();
+						dialog.container.slideDown('slow', function () {
+							//dialog.data.fadeIn('slow');
+							$('input.tags').focus();
+						});
+					});
+			},
+			onClose: function (dialog) {
+				tagging = false;
+				dialog.data.hide();
+				dialog.overlay.fadeOut('slow', function () {
+					$.modal.close();
+					refreshSaves();
+				});
+			}
+		});
+	}
+	
+	function bindRemoveTags(){
+		$('.currentTags .remove').bind('click', function(e){
+			e.preventDefault();
+			var uid = $('#tagger .uid').attr('value');
+			var tagElem = $(this).siblings('span')[0];
+			var tag = $(tagElem).html();
+			$.ajax({
+				type: "PUT",
+				url: '/instance/' + uid,
+				data: {tags: tag, remove: true},
+				success: function(data){
+					listCurrentTags(uid, $('ul.currentTags'));
+				}
+			});
+		});
+	}
+	
+	function listCurrentTags(id, elem){
+		$.ajax({
+			url: '/instance/' + id + '.json',
+			success: function(data){
+				var tags = "";
+				if(data && typeof data == "object" && data.tags){
+					data.tags.forEach(function(val, i, arr){
+						tags += "<li><span>" + val + "</span><span class='remove'> x </span></li>";
+					});
+				}
+				$(elem).html(tags);
+				bindRemoveTags();
+			}
+		});
+	}
+	
 	socket.on('newsave', function (data) {
 		refreshSaves();
 	});

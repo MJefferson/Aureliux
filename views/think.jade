@@ -17,6 +17,10 @@ ul.toolbar
 	li#share SHARE
 	li#translate TRANSLATE
 	li#next NEXT
+.filterContainer
+	span
+		input.hidden(name='addFilter', placeholder='Add tags...')
+	ul.filters
 ul#instanceList
 .pagingContainer
 	ul#paging
@@ -30,3 +34,4 @@ ul#instanceList
 	.instanceText
 	input.tags(name= "tags")
 	input(type="submit", value="Tag")
+	ul.currentTags

@@ -118,9 +118,16 @@ app.get('/instances.json', function(req, res){
 
 app.get('/instances/:tags', function(req, res){
 	
-	tags = req.params.tags.split(',');
+	var tags = req.params.tags.split(',');
 	db.collection("instances").find({tags: {$in: tags}}).toArray(function(err, result){
 		res.json({ tags: tags, instances: result});
+	});
+});
+
+app.get('/instance/:id.json', function(req,res){
+	db.collection("instances").findOne({ uid: parseInt(req.params.id) }, function(err, result){
+		//console.log(err);
+		res.json(result, 200);
 	});
 });
 
@@ -132,12 +139,21 @@ app.get('/instance/:id', function(req,res){
 });
 
 app.put('/instance/:id', function(req,res){
-	uid = req.params.id || null;
-	tags = req.body.tags || null;
+	var uid = req.params.id || null;
+	var tags = req.body.tags || null;
+	// add flag to signal whether tag is being added or removed; defaults to add
+	var remove = req.body.remove || false;
 	
-	if(uid !== null && tags !== null){
-		tagArray = tags.split(',');
+	if(uid !== null && tags !== null && !remove){
+		console.log("adding tags: %s", tags);
+		var tagArray = tags.split(',');
 		db.collection("instances").update({uid: parseInt(uid)}, {'$addToSet': {tags: { '$each': tagArray}}}, function(error, result){
+			if (error) throw error;
+			res.json({Result: result}, 200);
+		});
+	} else if (uid !== null && tags !== null && remove) {
+		console.log("removing tag: %s", tags);
+		db.collection("instances").update({uid: parseInt(uid)}, {'$pullAll': {tags: [tags]}}, function(error, result){
 			if (error) throw error;
 			res.json({Result: result}, 200);
 		});

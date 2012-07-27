@@ -43,7 +43,7 @@ a {
 ul.toolbar {
 	width: 300px;
 	height: 75px;
-	margin: 0px auto;
+	margin: 10px auto;
 	border-radius: 5px;
 	list-style: none;
 	color: #544;
@@ -140,11 +140,10 @@ ul.lenses li:hover {
  */
 ul#paging {
 	overflow: auto;
-	margin: 0 auto;
 	width: 150px;
 	color: #CCC;
 	list-style: none;
-	margin: 0 auto;
+	margin: 20px auto;
 }
 ul#paging li {
 	float: left;
@@ -161,6 +160,18 @@ ul#paging .next, ul#paging .prev {
 
 span.taggerText {
 	color: white;
+}
+
+ul.currentTags {
+	color: gray;
+	list-style: none;
+	padding: 2px;
+	margin-top: 30px;
+}
+ul.currentTags .remove {
+	color: red;
+	cursor: pointer;
+	margin-left: 50px;
 }
 .instanceText {
 	font-weight: bold;
@@ -180,4 +191,23 @@ span.taggerText {
     text-transform: uppercase;
     font-size: 11px;
     margin-right: 3px;
+}
+
+div.filterContainer {
+	width: 640px;
+	margin: 0 auto;
+}
+
+ul.filters {
+	color: #CFC;
+	list-style: none;
+	overflow: auto;
+}
+ul.filters li {
+	float: right;
+	margin-right: 4px;
+}
+ul.filters:before {
+	content: 'Filters:';
+	color: gray;
 }
