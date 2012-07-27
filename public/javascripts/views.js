@@ -4,6 +4,8 @@ timeline = new Array();
 lens = "alpha";
 page = 0;
 tagging = false;
+filterApplied = false;
+filterTags = [];
 
 $(document).ready(function(){
 	//meta.phrase = $('h1.phrase').html();
@@ -65,9 +67,10 @@ $(document).ready(function(){
 		}
 	}
 	function refreshSaves(callback){
+		var tags = (filterApplied) ? filterTags.join(',') : "";
 		$.ajax({
 			url: 'instances.json',
-			data: {page: page},
+			data: {page: page, tags: tags},
 			success: function(data){
 				$("#instanceList").html("");
 				data.Results.forEach(function(inst){
@@ -134,22 +137,25 @@ $(document).ready(function(){
 		nextEntry();
 	});
 	
+	function setPage(pageNum){
+		page = pageNum;
+		$('#paging .current').html(pageNum);
+	}
+	
 	$('#paging .prev').bind('click', function(){
 		if(page > 0){
-			page--;
+			setPage(page-1);
 			$('#instanceList').css({
 			    opacity: 0
 	  		});
-			$('#paging .current').html(page);
 			refreshSaves();
 		}
 	});
 	$('#paging .next').bind('click', function(){
-		page++;
+		setPage(page+1);
 		$('#instanceList').css({
 			    opacity: 0
   		});
-		$('#paging .current').html(page);
 		refreshSaves();
 	});
 	
@@ -167,6 +173,55 @@ $(document).ready(function(){
 		}
 	}
 	
+	function bindApplyButton(){
+		$('ul.filters .apply').bind('click', function(e){
+			if(filterTags.length > 0){
+				filterApplied = true;
+				setPage(0);
+				refreshSaves();
+			}
+		});
+	};
+	function bindClearButton(){
+		$('ul.filters .clear').bind('click', function(e){
+			$('ul.filters').html('<li class="clear">CLEAR</li><li class="apply">APPLY</li><li class="add">ADD</li>');
+			bindAddButton();
+			bindClearButton();
+			bindApplyButton();
+			filterApplied = false;
+			filterTags = [];
+			setPage(0);
+			refreshSaves();
+		});
+	};
+	function bindAddButton(){
+		$('ul.filters .add').bind('click', function(){
+			console.log("damn hting is clicked.");
+			$('#addFilterForm').modal({
+				overlayClose: true,
+				opacity:90,
+				overlayCss: {backgroundColor:"#000"},
+				onOpen: function (dialog) {
+						tagging = true;
+						dialog.overlay.fadeIn('slow', function () {
+							dialog.data.show();
+							dialog.container.slideDown('slow', function () {
+								//dialog.data.fadeIn('slow');
+								//$('input.tags').focus();
+							});
+						});
+				},
+				onClose: function (dialog) {
+					tagging = false;
+					dialog.data.hide();
+					dialog.overlay.fadeOut('slow', function () {
+						$.modal.close();
+						//refreshSaves();
+					});
+				}
+			});
+		})
+	}
 	function makeTagsFilters(){
 		$('li.tag').bind('click', function(e){
 			e.preventDefault();
@@ -174,6 +229,10 @@ $(document).ready(function(){
 			var filters = $('ul.filters').html();
 			if(filters.indexOf(text) === -1){
 				$('ul.filters').html(filters + "<li>" + text + "</li>");
+				filterTags.push(text);
+				bindApplyButton();
+				bindClearButton();
+				bindAddButton();
 			}
 		})
 	}
@@ -190,6 +249,23 @@ $(document).ready(function(){
 				$.modal.close();
 			}
 		});
+	});
+	
+	$('#addFilterForm input[type="submit"]').bind('click', function(e){
+		e.preventDefault();
+		var tags = $($('input[name=addFilter]')[0]).val();
+		var tagArray = tags.split(',');
+		tagArray.forEach(function(value, i, arr){
+			var filters = $('ul.filters').html();
+			if(filters.indexOf(value) === -1){
+				$('ul.filters').html(filters + "<li>" + value + "</li>");
+				filterTags.push(value);
+				bindApplyButton();
+				bindClearButton();
+				bindAddButton();
+			}
+		});
+		$.modal.close();
 	});
 	function bindAddTags(){
 		$('.addtag').bind('click', function(){
@@ -277,5 +353,6 @@ $(document).ready(function(){
 	});
 	
 	nextEntry();
+	bindAddButton();
 	refreshSaves();
 });

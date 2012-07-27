@@ -17,11 +17,16 @@ ul.toolbar
 	li#share SHARE
 	li#translate TRANSLATE
 	li#next NEXT
-.filterContainer
-	span
-		input.hidden(name='addFilter', placeholder='Add tags...')
-	ul.filters
 ul#instanceList
+.filterContainer
+	div#addFilterForm.hidden
+		div.description Add (comma-separated) tags to filter: 
+		input(name='addFilter', placeholder='tags...')
+		input(type="submit", value="Add")
+	ul.filters
+		li.clear CLEAR
+		li.apply APPLY
+		li.add ADD
 .pagingContainer
 	ul#paging
 		li.prev &#60;

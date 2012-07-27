@@ -110,8 +110,10 @@ io.sockets.on('connection', function (socket) {
 
 app.get('/instances.json', function(req, res){
 	var page = req.query.page || 0;
-	var size = 20;
-	db.collection("instances").find({},{limit: size, skip: page*size, sort: [["_id", 'desc']]}).toArray(function(err, result) {
+	var filter = (req.query.tags && req.query.tags.length > 0) ? {tags: {$in: req.query.tags.split(',')}} : {};
+	var size = 10;
+	
+	db.collection("instances").find(filter,{limit: size, skip: page*size, sort: [["_id", 'desc']]}).toArray(function(err, result) {
 	    res.json({Results: result});
 	});
 });

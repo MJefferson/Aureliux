@@ -194,7 +194,7 @@ ul.currentTags .remove {
 }
 
 div.filterContainer {
-	width: 640px;
+	width: 660px;
 	margin: 0 auto;
 }
 
@@ -208,6 +208,29 @@ ul.filters li {
 	margin-right: 4px;
 }
 ul.filters:before {
-	content: 'Filters:';
+	content: 'FILTERS:';
 	color: gray;
+	font-size: 10px;
+}
+
+ul.filters li.add, li.apply, li.clear {
+	color: gray;
+	font-size: 10px;
+	margin-top: 3px;
+}
+ul.filters li.apply:hover {
+	color: white;
+}
+
+ul.filters li.clear:hover {
+	color: white;
+}
+
+ul.filters li.add:hover {
+	color: white;
+}
+
+#addFilterForm .description {
+	color: white;
+	margin-bottom: 5px;
 }
