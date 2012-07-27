@@ -1,15 +1,14 @@
 
-meta = {};
-timeline = new Array();
-lens = "alpha";
-page = 0;
-tagging = false;
-filterApplied = false;
-filterTags = [];
-
 $(document).ready(function(){
-	//meta.phrase = $('h1.phrase').html();
-	//meta.uid = $('#instance').html();
+	
+	var meta = {};
+	var timeline = new Array();
+	var lens = "alpha";
+	var page = 0;
+	var tagging = false;
+	var filterApplied = false;
+	var filterTags = [];
+	
 	var socket = io.connect(socketaddr);
 	
 	function addToHistory(obj){
@@ -105,17 +104,24 @@ $(document).ready(function(){
    	 return new Date(parseInt(instance._id.toString().slice(0,8), 16)*1000);
 	}		
 	$(document).bind('keydown', function(event){
-		if(event.which == 39){
+		console.log(event.which);
+		if(event.which == 39 && !tagging){
 			nextEntry();
 		}
-		if(event.which == 38){
+		if(event.which == 38 && !tagging){
 			refreshSaves();
 		}
-		if(event.which == 37){
+		if(event.which == 37 && !tagging){
 			previousEntry();
 		}
 		if(event.which == 83 && !tagging){
 			savePhrase();
+		}
+		if(event.which == 65 && !tagging){
+			prevPage();
+		}
+		if(event.which == 68 && !tagging){
+			nextPage();
 		}
 	});
 	$('#next').bind('click', function(){
@@ -142,7 +148,10 @@ $(document).ready(function(){
 		$('#paging .current').html(pageNum);
 	}
 	
-	$('#paging .prev').bind('click', function(){
+	$('#paging .prev').bind('click', prevPage);
+	$('#paging .next').bind('click', nextPage);
+	
+	function prevPage(){
 		if(page > 0){
 			setPage(page-1);
 			$('#instanceList').css({
@@ -150,14 +159,15 @@ $(document).ready(function(){
 	  		});
 			refreshSaves();
 		}
-	});
-	$('#paging .next').bind('click', function(){
+	}
+	
+	function nextPage(){
 		setPage(page+1);
 		$('#instanceList').css({
 			    opacity: 0
   		});
 		refreshSaves();
-	});
+	}
 	
 	//There needs to be a function that takes an instance object, and target elem and renders a tag list
 	function updateTagList(instance, targetEl){
