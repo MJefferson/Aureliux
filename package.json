@@ -1,13 +1,14 @@
 {
-    "name": "aureliux"
-  , "version": "0.0.1"
-  , "private": true
-  , "dependencies": {
-      "express": "2.5.8"
-    , "jade": ">= 0.0.1"
-    , "colors": "0.6.0"
-    , "express-expose": "0.2.2"
-    , "socket.io": "0.9.6"
-    , "mongoskin": "0.3.6"
+  "name": "aureliux",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "2.5.8",
+    "jade": ">= 0.0.1",
+    "colors": "0.6.0",
+    "express-expose": "0.2.2",
+    "socket.io": "0.9.6",
+    "mongoskin": "~0.3.6",
+    "carrier": "~0.1.7"
   }
 }
