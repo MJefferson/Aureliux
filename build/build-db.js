@@ -4,6 +4,7 @@ var mongo = require('mongoskin'), db = mongo.db('localhost:27017/aurelius-test?a
 
 var types = ["adj", "adv", "noun", "verb"];
 var typeCounter = 0;
+var totalWords = 0;
 
 function insertWordsByType(type){
 	var i = 0;

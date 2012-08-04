@@ -122,6 +122,7 @@ ul.lenses {
 	padding: 0px;
 }
 ul.lenses li {
+	list-style-type: none !important;
 	float: left;
 	border: 1px solid;
 	padding: 10px;
