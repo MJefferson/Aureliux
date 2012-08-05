@@ -4,7 +4,7 @@ $(document).ready(function(){
 	var meta = {};
 	var timeline = new Array();
 	var lens = "alpha";
-	var page = 0;
+	var page = 1;
 	var tagging = false;
 	var filterApplied = false;
 	var filterTags = [];
@@ -152,7 +152,7 @@ $(document).ready(function(){
 	$('#paging .next').bind('click', nextPage);
 	
 	function prevPage(){
-		if(page > 0){
+		if(page > 1){
 			setPage(page-1);
 			$('#instanceList').css({
 			    opacity: 0
@@ -187,7 +187,7 @@ $(document).ready(function(){
 		$('ul.filters .apply').bind('click', function(e){
 			if(filterTags.length > 0){
 				filterApplied = true;
-				setPage(0);
+				setPage(1);
 				refreshSaves();
 			}
 		});
@@ -200,7 +200,7 @@ $(document).ready(function(){
 			bindApplyButton();
 			filterApplied = false;
 			filterTags = [];
-			setPage(0);
+			setPage(1);
 			refreshSaves();
 		});
 	};
