@@ -103,6 +103,13 @@ app.post('/instances', function(req, res){
 	res.json({status: 200}, 200);
 });
 
+//mobile clients have to save via a JSONP GET request
+app.get('/instances.jsonp', function(req, res){
+	resp = req.query;
+	db.collection("instances").insert({ uid: parseInt(resp.uid), phrase: resp.phrase, lens: resp.lens});
+	res.json({status: 200}, 200);
+});
+
 io.sockets.on('connection', function (socket) {
   socket.on('save', function(event){
   	socket.broadcast.emit('newsave');
