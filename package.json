@@ -9,6 +9,7 @@
     "express-expose": "0.2.2",
     "socket.io": "0.9.6",
     "mongoskin": "~0.3.6",
-    "carrier": "~0.1.7"
+    "carrier": "~0.1.7",
+    "jquery": "~1.8.3"
   }
 }

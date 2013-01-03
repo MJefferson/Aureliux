@@ -3,11 +3,16 @@
  * Module dependencies.
  */
 
-var express = require('express'), routes = require('./routes'), mongo = require('mongoskin'),
-    db = mongo.db('localhost:27017/aurelius?auto_reconnect'), colors = require('colors'), expose = require('express-expose');
+var express = require('express'),
+    routes = require('./routes'),
+    mongo = require('mongoskin'),
+    db = mongo.db('localhost:27017/aurelius?auto_reconnect'), 
+    colors = require('colors'), 
+    expose = require('express-expose');
 
 var app = module.exports = express.createServer();
 io = require('socket.io').listen(app);
+
 // Configuration
 
 app.configure(function(){
