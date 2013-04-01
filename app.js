@@ -46,6 +46,7 @@ Randomizer.init();
 var Alpha = require('./lib/alpha');
 var Beta = require('./lib/beta');
 var Gamma = require('./lib/gamma');
+var Delta = require('./lib/delta');
 
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -78,6 +79,11 @@ app.get('/beta.json', function(req, res){
 
 app.get('/gamma.json', function(req, res){
 	var lens = new Gamma(res, {format: "json"});
+	lens.aus();
+});
+
+app.get('/delta.json', function(req, res){
+	var lens = new Delta(res, {format: "json"});
 	lens.aus();
 });
 

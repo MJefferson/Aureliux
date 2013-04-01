@@ -1,6 +1,6 @@
 
 $(document).ready(function(){
-	
+
 	var meta = {};
 	var timeline = new Array();
 	var lens = "alpha";
@@ -142,7 +142,11 @@ $(document).ready(function(){
 		if(lens !== "gamma") switchLens("gamma");
 		nextEntry();
 	});
-	
+	$('#delta').bind('click', function(){
+		if(lens !== "delta") switchLens("delta");
+		nextEntry();
+	});
+
 	function setPage(pageNum){
 		page = pageNum;
 		$('#paging .current').html(pageNum);
