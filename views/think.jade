@@ -1,3 +1,9 @@
+head(prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# aurelbot: http://ogp.me/ns/fb/aurelbot#")
+meta(property="fb:app_id",content="379250292150711")
+meta(property="og:type",content="aurelbot:thought")
+meta(property="og:url",content="Put your own URL to the object here")
+meta(property="og:title",content="Sample Thought") 
+meta(property="og:image",content="https://fbstatic-a.akamaihd.net/images/devsite/attachment_blank.png")
 script!= javascript
 script(src="/javascripts/jquery172.js")
 script(src="/socket.io/socket.io.js")
@@ -7,39 +13,49 @@ script(src="/javascripts/jquery.simplemodal.1.4.2.min.js")
 script(src="/javascripts/views.js")
 script(src="/javascripts/fb-sdk.js")
 script
-	console.log('blajioefaj');
+  window.fbAsyncInit = function(){
+    FB.init({
+      appId:'379250292150711',
+      status:true,
+      cookie:true,
+      xfbml:true
+    });
+  }
+fb:login-button(data-scope:"publish_actions")
 ul.lenses
-	li#alpha.active a
-	li#beta b
-	li#gamma g
-	li#delta d
-	li#epsilon e
+  li#alpha.active a
+  li#beta b
+  li#gamma g
+  li#delta d
+  li#epsilon e
 h1.phrase= phrase
 ul.toolbar
-	li#save SAVE
-	li#share SHARE
-	li#translate TRANSLATE
-	li#next NEXT
+  li#save SAVE
+  li#share SHARE
+  li#translate TRANSLATE
+  li#next NEXT
 ul#instanceList
 .filterContainer
-	div#addFilterForm.hidden
-		div.description Add (comma-separated) tags to filter: 
-		input(name='addFilter', placeholder='tags...')
-		input(type="submit", value="Add")
-	ul.filters
-		li.clear CLEAR
-		li.apply APPLY
-		li.add ADD
+  div#addFilterForm.hidden
+    div.description Add (comma-separated) tags to filter: 
+    input(name='addFilter', placeholder='tags...')
+    input(type="submit", value="Add")
+  ul.filters
+    li.clear CLEAR
+    li.apply APPLY
+    li.add ADD
 .pagingContainer
-	ul#paging
-		li.prev &#60;
-		li.current 1 
-		li.next &#62;  
+  ul#paging
+    li.prev &#60;
+    li.current 1 
+    li.next &#62;  
 #instance.hidden= inst
 #tagger.hidden
-	input.uid(type="hidden", name= "uid")
-	span.taggerText Please enter (comma-separated) tags for
-	.instanceText
-	input.tags(name= "tags")
-	input(type="submit", value="Tag")
-	ul.currentTags
+  input.uid(type="hidden", name= "uid")
+  span.taggerText Please enter (comma-separated) tags for
+  .instanceText
+  input.tags(name= "tags")
+  input(type="submit", value="Tag")
+  ul.currentTags
+#fb-root
+#result

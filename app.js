@@ -155,7 +155,7 @@ app.get('/instance/:id.json', function(req,res){
 app.get('/instance/:id', function(req,res){
 	db.collection("instances").findOne({ uid: parseInt(req.params.id) }, function(err, result){
 		//console.log(err);
-		res.render('alpha', { title: 'Aureliux', phrase: result.phrase, inst: req.params.id });
+		res.render('think', { title: 'Aureliux', phrase: result.phrase, inst: req.params.id, layout: "instance_layout"});
 	});
 });
 

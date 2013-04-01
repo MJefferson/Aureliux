@@ -83,6 +83,7 @@ $(document).ready(function(){
 		});
 	}
 	function savePhrase(){
+            console.log(meta);
 		$.ajax({
 			type: "POST",
 			url: '/instances',
@@ -94,6 +95,27 @@ $(document).ready(function(){
 		});
 		socket.emit('save');
 	}
+        function postToFB(){
+            console.log(meta);
+            FB.api(
+              'https://graph.facebook.com/me/aurelbot:forge',
+              'post',
+              { object: "http://philolobot.com:3005/instance/" + meta.uid,
+                privacy: {'value': 'SELF'}
+              },
+              function(response) {
+                         if (!response) {
+                                      alert('Error occurred.');
+                                               } else if (response.error) {
+                                                            document.getElementById('result').innerHTML = 'Error: ' + response.error.message;
+                                                                     } else {
+                                                                                  document.getElementById('result').innerHTML =
+                           '<a href=\"https://www.facebook.com/me/activity/' + response.id + '\">' +
+                           'Story created.  ID is ' + response.id + '</a>';
+                     }
+              }
+            );
+        }
 	function switchLens(newlens){
 		var oldlens = lens;
 		lens = newlens;
@@ -130,6 +152,10 @@ $(document).ready(function(){
 	$('#save').bind('click', function(){
 		savePhrase();
 	});
+        $('#share').bind('click', function(){
+            savePhrase();
+            postToFB();
+        });
 	$('#alpha').bind('click', function(){
 		if(lens !== "alpha") switchLens("alpha");
 		nextEntry();
@@ -366,7 +392,7 @@ $(document).ready(function(){
 	    }
 	});
 	
-	nextEntry();
+	if($('h1.phrase').html().length == 0) nextEntry();
 	bindAddButton();
 	refreshSaves();
 });

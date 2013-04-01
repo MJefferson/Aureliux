@@ -1,0 +1,13 @@
+!!!
+html
+  head(prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# aurelbot: http://ogp.me/ns/fb/aurelbot#")
+    title Aureliux
+    meta(property="fb:app_id",content="379250292150711")
+    meta(property="og:type",content="aurelbot:thought")
+    meta(property="og:url", content="http://philolobot.com:3005/instance/#{inst}")
+    meta(property="og:title",content="#{phrase}")
+    meta(property="og:image",content="https://fbstatic-a.akamaihd.net/images/devsite/attachment_blank.png")
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    #header= title
+    #container!=body
