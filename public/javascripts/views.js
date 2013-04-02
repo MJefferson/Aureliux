@@ -100,7 +100,7 @@ $(document).ready(function(){
             FB.api(
               'https://graph.facebook.com/me/aurelbot:forge',
               'post',
-              { object: "http://philolobot.com:3005/instance/" + meta.uid,
+              { thought: "http://philolobot.com:3005/instance/" + meta.uid,
                 privacy: {'value': 'SELF'}
               },
               function(response) {
