@@ -1,9 +1,9 @@
 
 $(document).ready(function(){
 
-	var meta = {};
 	var timeline = new Array();
 	var lens = "alpha";
+	var meta = {uid: $("#instance").html(), phrase: $("h1.phrase").html(), lens: lens};
 	var page = 1;
 	var tagging = false;
 	var filterApplied = false;
@@ -47,7 +47,6 @@ $(document).ready(function(){
 	
 	function nextEntry(){
 		var position = timeline.indexOf(meta);
-		
 		if (position > -1 && timeline.length > (position + 1)) {
 			//load next timeline
 			var next = timeline[position+1];
@@ -68,7 +67,7 @@ $(document).ready(function(){
 	function refreshSaves(callback){
 		var tags = (filterApplied) ? filterTags.join(',') : "";
 		$.ajax({
-			url: 'instances.json',
+			url: '/instances.json',
 			data: {page: page, tags: tags},
 			success: function(data){
 				$("#instanceList").html("");
@@ -83,7 +82,6 @@ $(document).ready(function(){
 		});
 	}
 	function savePhrase(){
-            console.log(meta);
 		$.ajax({
 			type: "POST",
 			url: '/instances',
@@ -126,7 +124,6 @@ $(document).ready(function(){
    	 return new Date(parseInt(instance._id.toString().slice(0,8), 16)*1000);
 	}		
 	$(document).bind('keydown', function(event){
-		console.log(event.which);
 		if(event.which == 39 && !tagging){
 			nextEntry();
 		}
@@ -236,7 +233,6 @@ $(document).ready(function(){
 	};
 	function bindAddButton(){
 		$('ul.filters .add').bind('click', function(){
-			console.log("damn hting is clicked.");
 			$('#addFilterForm').modal({
 				overlayClose: true,
 				opacity:90,
@@ -393,6 +389,7 @@ $(document).ready(function(){
 	});
 	
 	if($('h1.phrase').html().length == 0) nextEntry();
+  addToHistory(meta);
 	bindAddButton();
 	refreshSaves();
 });

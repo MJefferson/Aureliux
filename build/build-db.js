@@ -1,6 +1,6 @@
 var fs = require('fs');
 var carrier = require('carrier');
-var mongo = require('mongoskin'), db = mongo.db('localhost:27017/aurelius-test?auto_reconnect');
+var mongo = require('mongoskin'), db = mongo.db('localhost:27017/aurelius?auto_reconnect');
 
 var types = ["adj", "adv", "noun", "verb"];
 var typeCounter = 0;
