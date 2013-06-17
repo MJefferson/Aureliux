@@ -6,7 +6,7 @@
 var express = require('express'),
     routes = require('./routes'),
     mongo = require('mongoskin'),
-    db = mongo.db('localhost:27017/aurelius?auto_reconnect'), 
+    db = mongo.db('localhost:27017/aurelius?auto_reconnect', {safe: true}), 
     colors = require('colors'), 
     expose = require('express-expose');
 
