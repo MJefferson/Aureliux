@@ -9,7 +9,7 @@ $(document).ready(function(){
 	var filterApplied = false;
 	var filterTags = [];
 	
-	var socket = io.connect(socketaddr);
+	var socket = io.connect(location.origin);
 	
 	function addToHistory(obj){
 		if(timeline.length <= 50 && timeline.indexOf(obj) == -1){

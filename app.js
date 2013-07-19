@@ -29,7 +29,6 @@ app.configure(function(){
 io.configure('production', function(){
   io.enable('browser client minification'); 
   io.enable('browser client etag');         
-  io.enable('browser client gzip');  
   io.set('log level', 1);
 
   io.set('transports', [
@@ -54,11 +53,13 @@ app.configure('development', function(){
 });
 
 app.configure('production', function(){
-  app.use(express.errorHandler());
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   app.expose('var socketaddr = "http://184.72.234.5";');
 });
 
 // Routes
+  app.use(express.errorHandler());
+
 
 app.get('/', routes.index);
 
@@ -110,7 +111,9 @@ app.get('/readv.json', function(req, res){
 app.post('/instances', function(req, res){
 	console.log(req.body);
 	resp = req.body;
-	db.collection("instances").insert({ uid: parseInt(resp.uid), phrase: resp.phrase, lens: resp.lens});
+	db.collection("instances").insert({ uid: parseInt(resp.uid), phrase: resp.phrase, lens: resp.lens}, {}, function(err){
+		console.log(err);
+	});
 	res.json({status: 200}, 200);
 });
 
@@ -119,7 +122,7 @@ app.get('/instances.jsonp', function(req, res){
 	resp = req.query;
 	db.collection("instances").insert({ uid: parseInt(resp.uid), phrase: resp.phrase, lens: resp.lens});
 	res.json({status: 200}, 200);
-});
+})
 
 io.sockets.on('connection', function (socket) {
   socket.on('save', function(event){
