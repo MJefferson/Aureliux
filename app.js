@@ -5,30 +5,47 @@
 
 var express = require('express'),
     routes = require('./routes'),
-    mongo = require('mongoskin'),
-    db = mongo.db('localhost:27017/aurelius?auto_reconnect', {safe: true}), 
-    colors = require('colors'), 
-    expose = require('express-expose');
-
-var app = module.exports = express.createServer();
-io = require('socket.io').listen(app);
-
-// Configuration
-
-app.configure(function(){
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
-  app.set('jsonp callback', true);
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
-  app.use(express.favicon(__dirname + '/public/favicon.ico', { maxAge: 2592000000 }));
+    colors = require('colors'),
+    compression = require('compression'),
+    // expose = require('express-expose'),
+    cookieParser = require('cookie-parser'),
+    bodyParser = require('body-parser'),
+    logger = require('morgan');
+var path = require('path');
+var mongoose = require('mongoose');
+var db = mongoose.connection;
+mongoose.connect('mongodb://localhost/aurelius');
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log("connected to mongodb database!");
 });
 
+var app = express();
+var io = require('socket.io').listen(app);
+
+// Configuration
+app.use(compression());
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+app.set('jsonp callback', true);
+
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+// app.use(stylus.middleware({
+//     src: path.join(__dirname, "app"),
+//     compile: (str, path) => stylus(str).set('filename', path).set('compress', true).use(nib())
+// }));
+app.use(express.static(path.join(__dirname, 'public'), { maxAge: '365 days' }));
+
 io.configure('production', function(){
-  io.enable('browser client minification'); 
-  io.enable('browser client etag');         
+  io.enable('browser client minification');
+  io.enable('browser client etag');
   io.set('log level', 1);
 
   io.set('transports', [
@@ -43,149 +60,141 @@ io.configure('production', function(){
 var Randomizer = require('./lib/randomizer');
 Randomizer.init();
 var Alpha = require('./lib/alpha');
-var Beta = require('./lib/beta');
+/*var Beta = require('./lib/beta');
 var Gamma = require('./lib/gamma');
-var Delta = require('./lib/delta');
+var Delta = require('./lib/delta');*/
 
-app.configure('development', function(){
+/*if (app.get('env') === 'production') {
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-  app.expose('var socketaddr = "http://localhost";');
-});
-
-app.configure('production', function(){
+//   app.expose('var socketaddr = "http://184.72.234.5";');
+} else {
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-  app.expose('var socketaddr = "http://184.72.234.5";');
-});
-
-// Routes
-  app.use(express.errorHandler());
-
+//   app.expose('var socketaddr = "http://localhost";');
+}*/
 
 app.get('/', routes.index);
 
 app.get('/think', function(req, res){
-	var lens = new Alpha(res, {format: "html"});
-	lens.aus();
+    var lens = new Alpha(res, {format: "html"});
+    lens.aus();
 });
 
-app.get('/alpha.json', function(req, res){
-	var lens = new Alpha(res, {format: "json"});
-	lens.aus();
+/*app.get('/alpha.json', function(req, res){
+    var lens = new Alpha(res, {format: "json"});
+    lens.aus();
 });
 
 app.get('/beta.json', function(req, res){
-	var lens = new Beta(res, {format: "json"});
-	lens.aus();
+    var lens = new Beta(res, {format: "json"});
+    lens.aus();
 });
 
 app.get('/gamma.json', function(req, res){
-	var lens = new Gamma(res, {format: "json"});
-	lens.aus();
+    var lens = new Gamma(res, {format: "json"});
+    lens.aus();
 });
 
 app.get('/delta.json', function(req, res){
-	var lens = new Delta(res, {format: "json"});
-	lens.aus();
+    var lens = new Delta(res, {format: "json"});
+    lens.aus();
 });
 
 app.get('/renoun.json', function(req, res){
-	Randomizer.rebuild("noun");
-	res.json({status: 200}, 200);
+    Randomizer.rebuild("noun");
+    res.json({status: 200}, 200);
 });
 
 app.get('/reverb.json', function(req, res){
-	Randomizer.rebuild("verb");
-	res.json({status: 200}, 200);
+    Randomizer.rebuild("verb");
+    res.json({status: 200}, 200);
 });
 
 app.get('/readj.json', function(req, res){
-	Randomizer.rebuild("adj");
-	res.json({status: 200}, 200);
+    Randomizer.rebuild("adj");
+    res.json({status: 200}, 200);
 });
 
 app.get('/readv.json', function(req, res){
-	Randomizer.rebuild("adv");
-	res.json({status: 200}, 200);
-});
+    Randomizer.rebuild("adv");
+    res.json({status: 200}, 200);
+});*/
 
 app.post('/instances', function(req, res){
-	console.log(req.body);
-	resp = req.body;
-	db.collection("instances").insert({ uid: parseInt(resp.uid), phrase: resp.phrase, lens: resp.lens}, {}, function(err){
-		console.log(err);
-	});
-	res.json({status: 200}, 200);
+    console.log(req.body);
+    var resp = req.body;
+    db.collection("instances").insert({ uid: parseInt(resp.uid), phrase: resp.phrase, lens: resp.lens}, {}, function(err){
+        console.log(err);
+    });
+    res.json({status: 200}, 200);
 });
 
 //mobile clients have to save via a JSONP GET request
 app.get('/instances.jsonp', function(req, res){
-	resp = req.query;
-	db.collection("instances").insert({ uid: parseInt(resp.uid), phrase: resp.phrase, lens: resp.lens});
-	res.json({status: 200}, 200);
-})
+    var resp = req.query;
+    db.collection("instances").insert({ uid: parseInt(resp.uid), phrase: resp.phrase, lens: resp.lens});
+    res.json({status: 200}, 200);
+});
 
 io.sockets.on('connection', function (socket) {
   socket.on('save', function(event){
-  	socket.broadcast.emit('newsave');
+      socket.broadcast.emit('newsave');
   });
 });
 
 app.get('/instances.json', function(req, res){
-	var page = req.query.page || 1;
-	var filter = (req.query.tags && req.query.tags.length > 0) ? {tags: {$in: req.query.tags.split(',')}} : {};
-	var size = 10;
-	
-	db.collection("instances").find(filter,{limit: size, skip: (page-1)*size, sort: [["_id", 'desc']]}).toArray(function(err, result) {
-	    res.json({Results: result});
-	});
+    var page = req.query.page || 1;
+    var filter = (req.query.tags && req.query.tags.length > 0) ? {tags: {$in: req.query.tags.split(',')}} : {};
+    var size = 10;
+
+    db.collection("instances").find(filter,{limit: size, skip: (page-1)*size, sort: [["_id", 'desc']]}).toArray(function(err, result) {
+        res.json({Results: result});
+    });
 });
 
 app.get('/instances/:tags', function(req, res){
-	
-	var tags = req.params.tags.split(',');
-	db.collection("instances").find({tags: {$in: tags}}).toArray(function(err, result){
-		res.json({ tags: tags, instances: result});
-	});
-});
 
+    var tags = req.params.tags.split(',');
+    db.collection("instances").find({tags: {$in: tags}}).toArray(function(err, result){
+        res.json({ tags: tags, instances: result});
+    });
+});
+/*
 app.get('/instance/:id.json', function(req,res){
-	db.collection("instances").findOne({ uid: parseInt(req.params.id) }, function(err, result){
-		//console.log(err);
-		res.json(result, 200);
-	});
+    db.collection("instances").findOne({ uid: parseInt(req.params.id) }, function(err, result){
+        //console.log(err);
+        res.json(result, 200);
+    });
 });
 
 app.get('/instance/:id', function(req,res){
-	db.collection("instances").findOne({ uid: parseInt(req.params.id) }, function(err, result){
-		//console.log(err);
-		res.render('think', { title: 'Aureliux', phrase: result.phrase, inst: req.params.id, lens: result.lens, layout: "instance_layout"});
-	});
+    db.collection("instances").findOne({ uid: parseInt(req.params.id) }, function(err, result){
+        //console.log(err);
+        res.render('think', { title: 'Aureliux', phrase: result.phrase, inst: req.params.id, lens: result.lens, layout: "instance_layout"});
+    });
 });
 
 app.put('/instance/:id', function(req,res){
-	var uid = req.params.id || null;
-	var tags = req.body.tags || null;
-	// add flag to signal whether tag is being added or removed; defaults to add
-	var remove = req.body.remove || false;
-	
-	if(uid !== null && tags !== null && !remove){
-		console.log("adding tags: %s", tags);
-		var tagArray = tags.split(',');
-		db.collection("instances").update({uid: parseInt(uid)}, {'$addToSet': {tags: { '$each': tagArray}}}, function(error, result){
-			if (error) throw error;
-			res.json({Result: result}, 200);
-		});
-	} else if (uid !== null && tags !== null && remove) {
-		console.log("removing tag: %s", tags);
-		db.collection("instances").update({uid: parseInt(uid)}, {'$pullAll': {tags: [tags]}}, function(error, result){
-			if (error) throw error;
-			res.json({Result: result}, 200);
-		});
-	} else {
-		res.json({Error: "No instance specified or no new tags given."}, 404);
-	}
-});
+    var uid = req.params.id || null;
+    var tags = req.body.tags || null;
+    // add flag to signal whether tag is being added or removed; defaults to add
+    var remove = req.body.remove || false;
 
-app.listen(3005, function(){
-  console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
-});
+    if(uid !== null && tags !== null && !remove){
+        console.log("adding tags: %s", tags);
+        var tagArray = tags.split(',');
+        db.collection("instances").update({uid: parseInt(uid)}, {'$addToSet': {tags: { '$each': tagArray}}}, function(error, result){
+            if (error) throw error;
+            res.json({Result: result}, 200);
+        });
+    } else if (uid !== null && tags !== null && remove) {
+        console.log("removing tag: %s", tags);
+        db.collection("instances").update({uid: parseInt(uid)}, {'$pullAll': {tags: [tags]}}, function(error, result){
+            if (error) throw error;
+            res.json({Result: result}, 200);
+        });
+    } else {
+        res.json({Error: "No instance specified or no new tags given."}, 404);
+    }
+});*/
+
+module.exports = app;

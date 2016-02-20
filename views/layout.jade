@@ -1,8 +1,10 @@
-!!!
+doctype
 html
-  head
+  head(prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# aurelbot: http://ogp.me/ns/fb/aurelbot#")
     title= title
+    block head
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     #header= title
     #container!=body
+    block content
