@@ -59,7 +59,7 @@ io.configure('production', function(){
 
 var Randomizer = require('./lib/randomizer');
 Randomizer.init();
-var Alpha = require('./lib/alpha');
+var { Α, β, Γ, Δ } = require('./lib/lenses.js');
 /*var Beta = require('./lib/beta');
 var Gamma = require('./lib/gamma');
 var Delta = require('./lib/delta');*/
@@ -75,27 +75,32 @@ var Delta = require('./lib/delta');*/
 app.get('/', routes.index);
 
 app.get('/think', function(req, res){
-    var lens = new Alpha(res, {format: "html"});
+    var lens = new Α(res, {format: "html"});
+    lens.aus();
+});
+app.get('/generate', function(req, res){
+    var lens = new Δ(res, {format: "html"});
     lens.aus();
 });
 
-/*app.get('/alpha.json', function(req, res){
-    var lens = new Alpha(res, {format: "json"});
+app.get('/alpha.json', function(req, res){
+    var lens = new Α(res, {format: "json"});
     lens.aus();
 });
+
 
 app.get('/beta.json', function(req, res){
-    var lens = new Beta(res, {format: "json"});
+    var lens = new β(res, {format: "json"});
     lens.aus();
 });
 
 app.get('/gamma.json', function(req, res){
-    var lens = new Gamma(res, {format: "json"});
+    var lens = new Γ(res, {format: "json"});
     lens.aus();
 });
 
 app.get('/delta.json', function(req, res){
-    var lens = new Delta(res, {format: "json"});
+    var lens = new Δ(res, {format: "json"});
     lens.aus();
 });
 
@@ -117,7 +122,7 @@ app.get('/readj.json', function(req, res){
 app.get('/readv.json', function(req, res){
     Randomizer.rebuild("adv");
     res.json({status: 200}, 200);
-});*/
+});
 
 app.post('/instances', function(req, res){
     console.log(req.body);
@@ -152,13 +157,11 @@ app.get('/instances.json', function(req, res){
 });
 
 app.get('/instances/:tags', function(req, res){
-
     var tags = req.params.tags.split(',');
     db.collection("instances").find({tags: {$in: tags}}).toArray(function(err, result){
         res.json({ tags: tags, instances: result});
     });
 });
-/*
 app.get('/instance/:id.json', function(req,res){
     db.collection("instances").findOne({ uid: parseInt(req.params.id) }, function(err, result){
         //console.log(err);
@@ -195,6 +198,6 @@ app.put('/instance/:id', function(req,res){
     } else {
         res.json({Error: "No instance specified or no new tags given."}, 404);
     }
-});*/
+});
 
 module.exports = app;
