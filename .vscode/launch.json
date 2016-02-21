@@ -1,0 +1,38 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/bin/launch.js",
+      "stopOnEntry": false,
+      "args": [],
+      "cwd": ".",
+      "runtimeExecutable": null,
+      "runtimeArgs": [
+        "--nolazy",
+        "--harmony",
+        "--harmony_sloppy_let",
+        "--harmony_destructuring",
+        "--harmony_array_includes",
+        "--harmony_default_parameters"
+      ],
+      "env": {
+        "NODE_ENV": "development",
+        "npm_package_config_port": "3000",
+        "user": "marq",
+        "unsafe-perm": "true"
+      },
+      "externalConsole": false,
+      "sourceMaps": false,
+      "outDir": null
+    },
+    {
+      "name": "Attach",
+      "type": "node",
+      "request": "attach",
+      "port": 5858
+    }
+  ]
+}

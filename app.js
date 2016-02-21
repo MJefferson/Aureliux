@@ -1,8 +1,3 @@
-
-/**
- * Module dependencies.
- */
-
 var express = require('express'),
     routes = require('./routes'),
     colors = require('colors'),
@@ -21,7 +16,6 @@ db.once('open', function() {
 });
 
 var app = express();
-var io = require('socket.io').listen(app);
 
 // Configuration
 app.use(compression());
@@ -43,6 +37,7 @@ app.use(cookieParser());
 // }));
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: '365 days' }));
 
+/*
 io.configure('production', function(){
   io.enable('browser client minification');
   io.enable('browser client etag');
@@ -55,14 +50,11 @@ io.configure('production', function(){
   , 'xhr-polling'
   , 'jsonp-polling'
   ]);
-});
+});*/
 
 var Randomizer = require('./lib/randomizer');
 Randomizer.init();
 var { Α, β, Γ, Δ } = require('./lib/lenses.js');
-/*var Beta = require('./lib/beta');
-var Gamma = require('./lib/gamma');
-var Delta = require('./lib/delta');*/
 
 /*if (app.get('env') === 'production') {
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -140,11 +132,11 @@ app.get('/instances.jsonp', function(req, res){
     res.json({status: 200}, 200);
 });
 
-io.sockets.on('connection', function (socket) {
+/*require('socket.io').on('connection', function (socket) {
   socket.on('save', function(event){
       socket.broadcast.emit('newsave');
   });
-});
+});*/
 
 app.get('/instances.json', function(req, res){
     var page = req.query.page || 1;
