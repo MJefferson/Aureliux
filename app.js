@@ -64,12 +64,16 @@ var { Α, β, Γ, Δ } = require('./lib/lenses.js');
 //   app.expose('var socketaddr = "http://localhost";');
 }*/
 
-app.get('/', routes.index);
+app.get('/',  function(req, res){
+    var lens = new Α(res, {format: "html"});
+    lens.aus();
+});
 
 app.get('/think', function(req, res){
     var lens = new Α(res, {format: "html"});
     lens.aus();
 });
+
 app.get('/generate', function(req, res){
     var lens = new Δ(res, {format: "html"});
     lens.aus();
