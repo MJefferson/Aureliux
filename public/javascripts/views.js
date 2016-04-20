@@ -8,9 +8,15 @@ $(document).ready(function(){
 	var tagging = false;
 	var filterApplied = false;
 	var filterTags = [];
-	
-	var socket = io.connect(location.origin);
-	
+
+	var socket = io({
+		transports: ['websocket', 'polling']
+	});
+
+	socket.on('error', function(err){
+		console.log(arguments);
+	})
+
 	function addToHistory(obj){
 		if(timeline.length <= 50 && timeline.indexOf(obj) == -1){
 			timeline.push(obj);
@@ -19,15 +25,15 @@ $(document).ready(function(){
 			timeline.push(obj);
 		}
 	}
-	
+
 	function previousEntry(){
-		
+
 		if(timeline.length < 1){
 			return false;
 		}
-		
+
 		var position = timeline.indexOf(meta);
-		
+
 		if(timeline.length > 0 && position > 0 ){
 			var previous = timeline[position-1];
 			meta = previous;
@@ -42,9 +48,9 @@ $(document).ready(function(){
 		} else {
 			return false;
 		}
-		
+
 	}
-	
+
 	function nextEntry(){
 		var position = timeline.indexOf(meta);
 		if (position > -1 && timeline.length > (position + 1)) {
@@ -52,7 +58,7 @@ $(document).ready(function(){
 			var next = timeline[position+1];
 			$('h1.phrase').html(next.phrase);
 			meta = next;
-			
+
 		} else {
 			$.ajax({
 				url: '/' + lens + '.json',
@@ -122,7 +128,7 @@ $(document).ready(function(){
 	}
 	function getTimestamp(instance){
    	 return new Date(parseInt(instance._id.toString().slice(0,8), 16)*1000);
-	}		
+	}
 	$(document).bind('keydown', function(event){
 		if(event.which == 39 && !tagging){
 			nextEntry();
@@ -174,10 +180,10 @@ $(document).ready(function(){
 		page = pageNum;
 		$('#paging .current').html(pageNum);
 	}
-	
+
 	$('#paging .prev').bind('click', prevPage);
 	$('#paging .next').bind('click', nextPage);
-	
+
 	function prevPage(){
 		if(page > 1){
 			setPage(page-1);
@@ -187,7 +193,7 @@ $(document).ready(function(){
 			refreshSaves();
 		}
 	}
-	
+
 	function nextPage(){
 		setPage(page+1);
 		$('#instanceList').css({
@@ -195,21 +201,21 @@ $(document).ready(function(){
   		});
 		refreshSaves();
 	}
-	
+
 	//There needs to be a function that takes an instance object, and target elem and renders a tag list
 	function updateTagList(instance, targetEl){
 		if(instance.tags && instance.tags.length > 0){
 			var list = "<ul>";
-			
+
 			instance.tags.forEach(function(val, i, arr){
-				list += "<li class='tag'>" + val + "</li>";	
+				list += "<li class='tag'>" + val + "</li>";
 			});
 			list += "</ul>"
 			$(targetEl).html(list);
 			makeTagsFilters();
 		}
 	}
-	
+
 	function bindApplyButton(){
 		$('ul.filters .apply').bind('click', function(e){
 			if(filterTags.length > 0){
@@ -272,7 +278,7 @@ $(document).ready(function(){
 			}
 		})
 	}
-	
+
 	$('#tagger input[type="submit"]').bind('click', function(e){
 		e.preventDefault();
 		var uid = $('#tagger .uid').attr('value');
@@ -286,7 +292,7 @@ $(document).ready(function(){
 			}
 		});
 	});
-	
+
 	$('#addFilterForm input[type="submit"]').bind('click', function(e){
 		e.preventDefault();
 		var tags = $($('input[name=addFilter]')[0]).val();
@@ -337,7 +343,7 @@ $(document).ready(function(){
 			}
 		});
 	}
-	
+
 	function bindRemoveTags(){
 		$('.currentTags .remove').bind('click', function(e){
 			e.preventDefault();
@@ -354,7 +360,7 @@ $(document).ready(function(){
 			});
 		});
 	}
-	
+
 	function listCurrentTags(id, elem){
 		$.ajax({
 			url: '/instance/' + id + '.json',
@@ -370,11 +376,11 @@ $(document).ready(function(){
 			}
 		});
 	}
-	
+
 	socket.on('newsave', function (data) {
 		refreshSaves();
 	});
-	
+
 	$( window ).swipe({
 	    left: function() {
 	        previousEntry();
@@ -387,7 +393,7 @@ $(document).ready(function(){
 	        y: 50
 	    }
 	});
-	
+
 	if($('h1.phrase').html().length == 0) nextEntry();
   addToHistory(meta);
 	bindAddButton();
