@@ -147,7 +147,7 @@ app.get('/instances.json', function(req, res){
     var filter = (req.query.tags && req.query.tags.length > 0) ? {tags: {$in: req.query.tags.split(',')}} : {};
     var size = 10;
 
-    db.collection("instances").find(filter,{limit: size, skip: (page-1)*size, sort: [["_id", 'asc']]}).toArray(function(err, result) {
+    db.collection("instances").find(filter,{limit: size, skip: (page-1)*size, sort: [["_id", 'desc']]}).toArray(function(err, result) {
         res.json({Results: result});
     });
 });
