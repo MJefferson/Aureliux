@@ -12,16 +12,6 @@ block head
   script(src="/javascripts/swipeEvent.js")
   script(src="/javascripts/jquery.simplemodal.1.4.2.min.js")
   script(src="/javascripts/views.js")
-  script(src="/javascripts/fb-sdk.js")
-  script.
-    window.fbAsyncInit = function(){
-      FB.init({
-        appId:'379250292150711',
-        status:true,
-        cookie:true,
-        xfbml:true
-      });
-    }
 block content
   fb:login-button(data-scope:"publish_actions")
   ul.lenses
